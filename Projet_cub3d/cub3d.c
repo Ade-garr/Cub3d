@@ -6,7 +6,7 @@
 /*   By: ade-garr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/03/05 20:05:26 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/08 13:29:43 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -557,6 +557,7 @@ int	ft_loop(t_param *param)
 int	ft_exit(t_param *param)
 {
 	// FONCTION POUR FREE TOUS LES MALLOC AINSI QUE L IMAGE
+	(void)param;
 	printf("Program successfully exited");
 	exit(1);
 }
@@ -691,7 +692,7 @@ void	*ft_set_sprite(t_param *param)
 	param->tab_sprite[1].x = 6; // A MODIFIER AVEC PARSING
 	param->tab_sprite[1].y = 9; // A MODIFIER AVEC PARSING
 	param->tab_sprite[2].x = 7; // A MODIFIER AVEC PARSING
-	param->tab_sprite[2].y = 8,5; // A MODIFIER AVEC PARSING
+	param->tab_sprite[2].y = 8.5; // A MODIFIER AVEC PARSING
 	param->sprite_order = malloc(sizeof(int) * param->nb_sprite);
 	if (param->sprite_order == NULL)
 		return (NULL);
@@ -817,9 +818,25 @@ int	ft_return(int nb)
 		write(1, "Error : impossible to read .cub file, program stopped\n", 54);
 	if (nb == 5)
 		write(1, "Error : incorrect .cub file\n", 28);
+	if (nb == 6)
+		write(1, "Error : information unknown or in double in .cub file\n", 54);
+	if (nb == 7)
+		write(1, "Error : resolution information incorrect\n", 41);
+	if (nb == 8)
+		write(1, "Error : north texture information incorrect\n", 44);
+	if (nb == 9)
+		write(1, "Error : south texture information incorrect\n", 44);
+	if (nb == 10)
+		write(1, "Error : west texture information incorrect\n", 43);
+	if (nb == 11)
+		write(1, "Error : east texture information incorrect\n", 43);
+	if (nb == 12)
+		write(1, "Error : sprite texture information incorrect\n", 45);
+	if (nb == 13)
+		write(1, "Error : floor color information incorrect\n", 42);
+	if (nb == 14)
+		write(1, "Error : cell color information incorrect\n", 41);
 	return (-1);
-	
-
 }
 
 int main(int argc, char **argv)
@@ -831,12 +848,12 @@ int main(int argc, char **argv)
 	if (argc == 1 || (argc == 2 && ft_check_arg(argv[1]) == 1))
 	{
 		param = malloc(sizeof(t_param) * 1);
-		//ret2 = ft_parsing(param, argv[1]);
+		/*ret2 = ft_parsing(param, argv[1]);
 		if (ret2 == -1)
 		{
 			free(param);
 			return (-1);
-		}
+		}*/
 		find_pos(param);
 		param->mlx = mlx_init();
 		param->tab_dist_wall = malloc(sizeof(double) * param->winX);
