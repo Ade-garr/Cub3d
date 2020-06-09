@@ -110,12 +110,6 @@ typedef struct	s_param
 	double		*tab_dist_wall;
 	int		*sprite_order;
 	double		*sprite_distance;
-	int			floorR;
-	int			floorG;
-	int			floorB;
-	int			cellR;
-	int			cellG;
-	int			cellB;
 	
 }				t_param;
 
@@ -560,6 +554,14 @@ int	ft_loop(t_param *param)
 	return (0);
 }
 
+int	ft_exit(t_param *param)
+{
+	// FONCTION POUR FREE TOUS LES MALLOC AINSI QUE L IMAGE
+	(void)param;
+	printf("Program successfully exited");
+	exit(1);
+}
+
 int	ft_keypress(int key, t_param *param)
 {
 	if /*(key == 13)*/ (key == 122)
@@ -804,7 +806,7 @@ int	ft_check_arg(char *str)
 	return (1);
 }
 
-void	ft_exit(int nb)
+int	ft_return(int nb)
 {
 	if (nb == 1)
 		write(1, "Error : failed to create an image\n", 34);
@@ -834,9 +836,7 @@ void	ft_exit(int nb)
 		write(1, "Error : floor color information incorrect\n", 42);
 	if (nb == 14)
 		write(1, "Error : cell color information incorrect\n", 41);
-	if (nb == 15)
-		write(1, "Error : resolution <= 0\n", 24);
-	exit(1);
+	return (-1);
 }
 
 int main(int argc, char **argv)

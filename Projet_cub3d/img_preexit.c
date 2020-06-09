@@ -85,142 +85,79 @@ int	ft_check_nb(char *str1, char *str2)
 	return (1);
 }
 
-void	ft_analyse_resolution_info(t_param *param, char **spltline, int index)
+int	ft_analyse_resolution_info(t_param *param, char **spltline)
 {
 	int	spltline_long;
 	int	ret;
-	int	screenX_max;
-	int	screenY_max;
 
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 3)
-		ft_exit(index + 7);
+		return (-1);
 	ret = ft_check_nb(*spltline[1], *spltline[2]);
 	if (ret == -1)
-		ft_exit(index + 7);
+		return (-1);
 	param->winX = ft_atoi(*spltline[1]);
 	param->winY = ft_atoi(*spltline[2]);
-	mlx_get_screen_size(param->mlx, &screenX_max, &screenY_max);
-	if (param->winX <= 0 || param->winY <= 0)
-		ft_exit(15);
-	if (param->winX > screenX_max)
-		param->winX = screenX_max;
-	if (param->winY > screenY_max)
-		param->winY = screenY_max;
-}
-
-void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
-{
-	int	spltline_long;
-	void	*ret;
-	int	i1;
-	int	i2;
-
-	spltline_long = ft_find_long_spltline(spltline);
-	if (spltline_long != 2)
-		ft_exit(index + 7);
-	ret = mlx_xpm_file_to_image(param->mlx, *spltline[1], &i1, &i2);
-	if (ret == NULL)
-		ft_exit(index + 7);
-	mlx_destroy_image(param->mlx, ret);
 	return (1);
 }
 
-int	ft_check_valid_g(char *str, int index, t_param *param, int i)
-{
-	int	G;
-
-	G = -1;
-	while (str[i] >= 48 || str[i] <= 57)
-	{
-		if (G = -1)
-			G = str[i] - 48;
-		else
-			G = G * 10 + str[i] - 48;
-		i++;
-	}
-	if (str[i] != ',')
-		ft_exit(index + 7);
-	i++;
-	if ((G < 0 || G > 255))
-		ft_exit(index + 7);
-	if (index == 6)
-		param->floorG = G;
-	if (index == 7)
-		param->cellG = G;
-	return (i);
-}
-
-int	ft_check_valid_r(char *str, int index, t_param *param, int i)
-{
-	int	R;
-
-	R = -1;
-	while (str[i] >= 48 || str[i] <= 57)
-	{
-		if (R = -1)
-			R = str[i] - 48;
-		else
-			R = R * 10 + str[i] - 48;
-		i++;
-	}
-	if (str[i] != ',')
-		ft_exit(index + 7);
-	i++;
-	if ((R < 0 || R > 255))
-		ft_exit(index + 7);
-	if (index == 6)
-		param->floorR = R;
-	if (index == 7)
-		param->cellR = R;
-	return (i);
-}
-
-void	ft_analyse_color_info(t_param *param, char **spltline, int index)
+int	ft_analyse_texture_info(t_param *param, char **spltline)
 {
 	int	spltline_long;
-	int	i;
+	void	*ret;
 
-	i = 0;
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 2)
-		ft_exit(index + 7);
-	i = ft_check_valid_r(*spltline[1], index, param, i);
-	i = ft_check_valid_g(*spltline[1], index, param, i);
-
-	
+		return (-1);
+	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_sprite, &param->tex_sprite->width,
+	&param->tex_sprite->height);
+	if (ret == NULL)
+		return (-1);
+	return (1);
 }
 
-void	ft_analyse_line_info(t_param *param, char **spltline, int index)
+int	ft_analyse_line_info(t_param *param, char **spltline, int index)
 {
+	int	ret;
+
 	if (index == 0)
-		ft_analyse_resolution_info(param, spltline, index);
+		ret = ft_analyse_resolution_info(param, spltline);
 	if (index > 0 && index <= 5)
-		ft_analyse_texture_info(param, spltline, index);
+		ret = ft_analyse_texture_info(param, spltline);
 	if (index > 5)
-		ft_analyse_color_info(param, spltline, index);
+		ret = ft_analyse_color_info(param, spltline);
+	if (ret == -1)
+		return (-1);
+	return (1);
 }
 
-void	ft_analyse_line(t_param *param, char *line, int	tab[8])
+int	ft_analyse_line(t_param *param, char *line, int	tab[8])
 {
 	char **spltline;
 	int	index;
+	int	ret;
 
 	spltline = ft_split(line, ' ');
 	if (spltline == NULL)
-		ft_exit(4);
+		return (ft_return(4));
 	index = ft_analyse_line_index(spltline, tab);
 	if (index >= 0 && index <= 7)
 	{
-		ft_analyse_line_info(param, spltline, index);
+		ret = ft_analyse_line_info(param, spltline, index);
 		ft_free(&spltline);
+		if (ret == -1)
+			return (ft_return(index + 7));
 		tab[index] = 1;
+		return (1);
 	}
 	else
-		ft_exit(6);
+	{
+		ft_free(&spltline);
+		return (ft_return(6));
+	}
 }
 
-void	ft_parsing_get_info(t_param *param, int fd)
+int	ft_parsing_get_info(t_param *param, int fd)
 {
 	int	tab[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 	int	ret;
@@ -230,21 +167,29 @@ void	ft_parsing_get_info(t_param *param, int fd)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
-			ft_exit(4);
+			return (ft_return(4));
 		if (ret == 0)
-			ft_exit(5);
+		{
+			free(line);
+			return (ft_return(5));
+		}
 		if (line[0] != '\0')
-			ft_analyse_line(param, line, tab);
+			ret = ft_analyse_line(param, line, tab);
 		free(line);
+		if (ret == -1)
+			return (-1);
+		}
 	}
+	return (1);
 }
 
-void ft_parsing(t_param *param, char *str)
+int ft_parsing(t_param *param, char *str)
 {
     int 	fd;
+    int 	ret;
 
 	fd = open(str, O_RDONLY);
     if (fd == -1)
-        ft_exit(3));
-	ft_parsing_get_info(param, fd)
+        return (ft_return(3));
+	ret = ft_parsing_get_info(param, fd)
 }
