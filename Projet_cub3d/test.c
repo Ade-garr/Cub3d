@@ -15,16 +15,11 @@
 #include <unistd.h>
 #include "mlx.h"
 
-void	ft_test(int tab[2])
-{
-	tab[1] = -1000;
-}
-
 int	main()
 {
-	int x[2] = {1, 2};
+	char x[2][4] = {"123", "000"};
 
 	//ft_test(x);
-	printf("%d\n", x[1]);;
+	printf("%c\n", x[0][3]);
 	return (0);	
 }

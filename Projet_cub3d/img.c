@@ -126,6 +126,32 @@ void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
 	return (1);
 }
 
+int	ft_check_valid_b(char *str, int index, t_param *param, int i)
+{
+	int	B;
+
+	B = -1;
+	while (str[i] >= 48 || str[i] <= 57)
+	{
+		if (B = -1)
+			B = str[i] - 48;
+		else
+			B = B * 10 + str[i] - 48;
+		i++;
+	}
+	while (str[i] == ' ')
+		i++;
+	if (str[i] != '\0')
+		ft_exit(index + 7);
+	if ((B < 0 || B > 255))
+		ft_exit(index + 7);
+	if (index == 6)
+		param->floorB = B;
+	if (index == 7)
+		param->cellB = B;
+	return (i);
+}
+
 int	ft_check_valid_g(char *str, int index, t_param *param, int i)
 {
 	int	G;
@@ -187,8 +213,7 @@ void	ft_analyse_color_info(t_param *param, char **spltline, int index)
 		ft_exit(index + 7);
 	i = ft_check_valid_r(*spltline[1], index, param, i);
 	i = ft_check_valid_g(*spltline[1], index, param, i);
-
-	
+	i = ft_check_valid_b(*spltline[1], index, param, i);
 }
 
 void	ft_analyse_line_info(t_param *param, char **spltline, int index)
@@ -220,6 +245,43 @@ void	ft_analyse_line(t_param *param, char *line, int	tab[8])
 		ft_exit(6);
 }
 
+char	*ft_parsing_empty_line(t_param *param, int fd)
+{
+	char	*line;
+	int		ret;
+
+	ret = get_next_line(fd, &line);
+	while (ret == 1 && line[0] == '\0')
+	{
+		free(line);
+		ret = get_next_line(fd, &line);	
+	}
+	if (ret == -1 || ret == 0)
+		ft_exit(4);
+	return (line);
+}
+
+void	ft_parsing_map(t_param *param, int fd, char *line)
+{
+	int	ret;
+
+	ret = 1;
+	param->mapHeight = 1;
+	param->mapWidth = ft_strlen(line);
+	// REPRENDRE ICI
+	while (ret == 1)
+	{	
+		ret = get_next_line(fd, &line);
+		if (ret >= 0)
+		{
+			line = ft_parsing_empty_line;
+		}
+	}
+	if (ret == -1)
+		ft_exit(4);
+	free(line);
+}
+
 void	ft_parsing_get_info(t_param *param, int fd)
 {
 	int	tab[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -242,9 +304,12 @@ void	ft_parsing_get_info(t_param *param, int fd)
 void ft_parsing(t_param *param, char *str)
 {
     int 	fd;
+	char	*line;
 
 	fd = open(str, O_RDONLY);
     if (fd == -1)
-        ft_exit(3));
-	ft_parsing_get_info(param, fd)
+        ft_exit(3);
+	ft_parsing_get_info(param, fd);
+	line = ft_parsing_empty_line(param, fd);
+	ft_parsing_map(param, fd, line);
 }

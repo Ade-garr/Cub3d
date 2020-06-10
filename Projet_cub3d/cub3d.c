@@ -116,10 +116,12 @@ typedef struct	s_param
 	int			cellR;
 	int			cellG;
 	int			cellB;
+	//int			mapWidth;
+	//int			mapHeight;
 	
 }				t_param;
 
-int worldMap[mapWidth][mapHeight]=
+/*int worldMap[mapHeight][mapWidth]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -145,6 +147,34 @@ int worldMap[mapWidth][mapHeight]=
   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};*/
+
+char worldMap[24][24]=
+{
+  "111111111111111111111111",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000222220000303030001",
+  "100000200020000000000001",
+  "100000200020000300030001",
+  "100000200020000000000001",
+  "100000220220000303030001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "144444444000000000000001",
+  "140400004000000000000001",
+  "140000504000000000000001",
+  "140400004000000000000001",
+  "140444444000000000000001",
+  "140000000000000000000001",
+  "144444444000000000000001",
+  "111111111111111111111111"
 };
 
 /// A MODIFIER AVEC PARSEUR DU .CUB
@@ -325,7 +355,7 @@ void	ft_raycasting(t_param *param)
 				param->mapY += param->stepY;
 				param->side = 1;
 			}
-			if (worldMap[param->mapX][param->mapY] > 0)
+			if (worldMap[param->mapX][param->mapY] > '0')
 				param->hit = 1;
 		}
 		if (param->side == 0)
@@ -419,51 +449,51 @@ int	ft_bodycollision(t_param *param, double Speed)
 
 	rectX = floor(param->posX) - 1;
 	rectY = floor(param->posY) - 1;
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX);
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX) - 1;
 	rectY = floor(param->posY);
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX) - 1;
 	rectY = floor(param->posY) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX);
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
 	}
 	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != 0)
+	if (worldMap[(int)rectX][(int)rectY] != '0')
 	{
 		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
 			return (1);
@@ -486,7 +516,7 @@ int	ft_loop(t_param *param)
 	if (param->tab[0] == 1)
 	{
 		if (worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == 0 && ft_bodycollision(param, Speed) == 0)
+		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0)
 		{	
 			param->posX += param->dirX * Speed;
 			param->posY += param->dirY * Speed;
@@ -499,7 +529,7 @@ int	ft_loop(t_param *param)
 		param->dirX = - param->dirX;
 		param->dirY = - param->dirY;
 		if (worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == 0 && ft_bodycollision(param, Speed) == 0)
+		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0)
 		{
 			param->posX += param->dirX * Speed;
 			param->posY += param->dirY * Speed;
@@ -514,7 +544,7 @@ int	ft_loop(t_param *param)
 		param->dirX = param->dirX * cos(M_PI/2) - param->dirY * sin(M_PI/2);
 		param->dirY = oldDirX * sin(M_PI/2) + param->dirY * cos(M_PI/2);
 		if(worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == 0 && ft_bodycollision(param, Speed) == 0) 
+		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0) 
 		{
 			param->posX += param->dirX * Speed;
 			param->posY += param->dirY * Speed;
@@ -529,7 +559,7 @@ int	ft_loop(t_param *param)
 		param->dirX = param->dirX * cos(-M_PI/2) - param->dirY * sin(-M_PI/2);
 		param->dirY = oldDirX * sin(-M_PI/2) + param->dirY * cos(-M_PI/2);
 		if(worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == 0 && ft_bodycollision(param, Speed) == 0) 
+		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0) 
 		{
 			param->posX += param->dirX * Speed;
 			param->posY += param->dirY * Speed;
@@ -562,22 +592,41 @@ int	ft_loop(t_param *param)
 
 int	ft_keypress(int key, t_param *param)
 {
-	if /*(key == 13)*/ (key == 122)
+	//LINUX
+	/*if (key == 122)
 		param->tab[0] = 1;
-	if /*(key == 1)*/ (key == 115)
+	if (key == 115)
 		param->tab[1] = 1;
-	if /*(key == 0)*/ (key == 113)
+	if (key == 113)
 		param->tab[2] = 1;
-	if /*(key == 2)*/ (key == 100)
+	if (key == 100)
 		param->tab[3] = 1;
-	if /*(key == 124)*/ (key == 65363)
+	if (key == 65363)
 		param->tab[4] = 1;
-	if /*(key == 123)*/ (key == 65361)
+	if (key == 65361)
 		param->tab[5] = 1;
-	if /*(key == 257)*/ (key == 65505)
+	if (key == 65505)
 		param->tab[6] = 1;
-	if /*(key == 257)*/ (key == 65307)
-		ft_exit(param);
+	if (key == 65307)
+		exit(1);*/
+
+	//MACOS
+	if (key == 13)
+		param->tab[0] = 1;
+	if (key == 1)
+		param->tab[1] = 1;
+	if (key == 0)
+		param->tab[2] = 1;
+	if (key == 2)
+		param->tab[3] = 1;
+	if (key == 124)
+		param->tab[4] = 1;
+	if (key == 123)
+		param->tab[5] = 1;
+	if (key == 257)
+		param->tab[6] = 1;
+	if (key == 53)
+		exit(1);
 	return (0);
 }
 
@@ -657,19 +706,36 @@ void	*ft_set_tex(t_param *param)
 
 int ft_keyrelease(int key, t_param *param)
 {
-	if /*(key == 13)*/ (key == 122)
+	//LINUX
+	/*if (key == 122)
 		param->tab[0] = 0;
-	if /*(key == 1)*/ (key == 115)
+	if (key == 115)
 		param->tab[1] = 0;
-	if /*(key == 0)*/ (key == 113)
+	if (key == 113)
 		param->tab[2] = 0;
-	if /*(key == 2)*/ (key == 100)
+	if (key == 100)
 		param->tab[3] = 0;
-	if /*(key == 124)*/ (key == 65363)
+	if (key == 65363)
 		param->tab[4] = 0;
-	if /*(key == 123)*/ (key == 65361)
+	if (key == 65361)
 		param->tab[5] = 0;
-	if /*(key == 257)*/ (key == 65505)
+	if (key == 65505)
+		param->tab[6] = 0;*/
+	
+	//MACOS
+	if (key == 13)
+		param->tab[0] = 0;
+	if (key == 1)
+		param->tab[1] = 0;
+	if (key == 0)
+		param->tab[2] = 0;
+	if (key == 2)
+		param->tab[3] = 0;
+	if (key == 124)
+		param->tab[4] = 0;
+	if (key == 123)
+		param->tab[5] = 0;
+	if (key == 257)
 		param->tab[6] = 0;
 	return (0);
 }
@@ -804,6 +870,13 @@ int	ft_check_arg(char *str)
 	return (1);
 }
 
+int	ft_exit2(t_param *param)
+{
+	(void)param;
+	exit(1);
+	return (0);
+}
+
 void	ft_exit(int nb)
 {
 	if (nb == 1)
@@ -870,7 +943,7 @@ int main(int argc, char **argv)
 			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Nico nico nicoco"); // CHANGER LES X/Y ET NOM
 			mlx_hook(param->win, 2, 1L<<0, ft_keypress, param);
 			mlx_hook(param->win, 3, 1L<<1, ft_keyrelease, param);
-			mlx_hook(param->win, 17, 1L<<19, ft_exit, param); // EVENT MASK A VOIR
+			mlx_hook(param->win, 17, 1L<<19, ft_exit2, param); // EVENT MASK A VOIR
 			mlx_loop_hook(param->mlx, ft_loop, param);
 			mlx_loop(param->mlx);
 		}
@@ -879,10 +952,10 @@ int main(int argc, char **argv)
 			ft_raycasting(param);
 			ret2 = ft_create_img(param);
 			if (ret2 == -1)
-				return(ft_return(1));
+				ft_exit(1);
 		}
 	}
 	else
-		return(ft_return(2)); // A MODIFIER
+		ft_exit(2); // A MODIFIER
 	return (1);
 }
