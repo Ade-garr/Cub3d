@@ -118,6 +118,7 @@ typedef struct	s_param
 	int			cellB;
 	//int			mapWidth;
 	//int			mapHeight;
+	//char		**worldMap;
 	
 }				t_param;
 
@@ -355,7 +356,7 @@ void	ft_raycasting(t_param *param)
 				param->mapY += param->stepY;
 				param->side = 1;
 			}
-			if (worldMap[param->mapX][param->mapY] > '0')
+			if (worldMap[param->mapX][param->mapY] > '0' && worldMap[param->mapX][param->mapY] <= '9')
 				param->hit = 1;
 		}
 		if (param->side == 0)
@@ -909,6 +910,8 @@ void	ft_exit(int nb)
 		write(1, "Error : cell color information incorrect\n", 41);
 	if (nb == 15)
 		write(1, "Error : resolution <= 0\n", 24);
+	if (nb == 16)
+		write(1, "Error : incorrect map\n", 22);
 	exit(1);
 }
 

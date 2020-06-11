@@ -109,6 +109,20 @@ void	ft_analyse_resolution_info(t_param *param, char **spltline, int index)
 		param->winY = screenY_max;
 }
 
+void	ft_param_texture_path(t_param *param, char *str, int index)
+{
+	if (index == 1)
+		param->fn_texN = ft_strdup(str);
+	if (index == 2)
+		param->fn_texS = ft_strdup(str);
+	if (index == 3)
+		param->fn_texW = ft_strdup(str);
+	if (index == 4)
+		param->fn_texE = ft_strdup(str);
+	if (index == 5)
+		param->fn_tex_sprite = ft_strdup(str);
+}
+
 void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
 {
 	int	spltline_long;
@@ -122,8 +136,9 @@ void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
 	ret = mlx_xpm_file_to_image(param->mlx, *spltline[1], &i1, &i2);
 	if (ret == NULL)
 		ft_exit(index + 7);
+	ft_param_texture_path(param, *spltline[1], index);
 	mlx_destroy_image(param->mlx, ret);
-	return (1);
+	
 }
 
 int	ft_check_valid_b(char *str, int index, t_param *param, int i)
@@ -245,6 +260,20 @@ void	ft_analyse_line(t_param *param, char *line, int	tab[8])
 		ft_exit(6);
 }
 
+void	ft_check_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] != '0' && line[i] != '1' && line[i] != '2' && line[i] != 'N' 
+		&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
+			ft_exit(16);
+		i++;
+	}
+}
+
 char	*ft_parsing_empty_line(t_param *param, int fd)
 {
 	char	*line;
@@ -258,28 +287,51 @@ char	*ft_parsing_empty_line(t_param *param, int fd)
 	}
 	if (ret == -1 || ret == 0)
 		ft_exit(4);
+	ft_check_line(line);
 	return (line);
+}
+
+void	ft_merge_lines(t_param *param, char *line, int height)
+{
+	int	i;
+	char	**tmp_worldMap;
+
+	i = 0;
+	tmp_worldMap = param->worldMap;
+	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
+	if (param->worldMap == NULL)
+		ft_exit(4);
+	while (i < height - 1)
+	{
+		param->worldMap[i] = tmp_worldMap[i];
+		i++;
+	}
+	param->worldMap[i] = line;
+	free(tmp_worldMap);
 }
 
 void	ft_parsing_map(t_param *param, int fd, char *line)
 {
-	int	ret;
+	int		ret;
 
 	ret = 1;
 	param->mapHeight = 1;
-	param->mapWidth = ft_strlen(line);
-	// REPRENDRE ICI
+	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
+	if (param->worldMap == NULL)
+		ft_exit(4);
+	param->worldMap[0] = line;
 	while (ret == 1)
 	{	
 		ret = get_next_line(fd, &line);
 		if (ret >= 0)
 		{
-			line = ft_parsing_empty_line;
+			ft_check_line(line);
+			param->mapHeight++;
+			ft_merge_lines(param, line, param->mapHeight);
 		}
 	}
 	if (ret == -1)
 		ft_exit(4);
-	free(line);
 }
 
 void	ft_parsing_get_info(t_param *param, int fd)
@@ -301,7 +353,35 @@ void	ft_parsing_get_info(t_param *param, int fd)
 	}
 }
 
-void ft_parsing(t_param *param, char *str)
+void	ft_check_NSWE(t_param *param)
+{
+	int	compteur;
+	int	i;
+	int	j;
+
+	i = 0;
+	compteur = 0;
+	while (i < param->mapHeight)
+	{
+		j = 0;
+		while (param->worldMap[i][j] != '\0')
+		{
+			if (param->worldMap[i][j] == 'N' || param->worldMap[i][j] == 'S'
+			|| param->worldMap[i][j] == 'E' || param->worldMap[i][j] == 'W')
+			{
+				compteur++;
+				param->posX = j + 0.5;
+				param->posY = i + 0.5;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (compteur != 1)
+		ft_exit(16);
+}
+
+void	ft_parsing(t_param *param, char *str)
 {
     int 	fd;
 	char	*line;
@@ -312,4 +392,8 @@ void ft_parsing(t_param *param, char *str)
 	ft_parsing_get_info(param, fd);
 	line = ft_parsing_empty_line(param, fd);
 	ft_parsing_map(param, fd, line);
+	ft_check_NSWE(param);
+	ft_check_map(param);
+	if (close(fd) == -1)
+		ft_exit(4);
 }
