@@ -112,15 +112,30 @@ void	ft_analyse_resolution_info(t_param *param, char **spltline, int index)
 void	ft_param_texture_path(t_param *param, char *str, int index)
 {
 	if (index == 1)
-		param->fn_texN = ft_strdup(str);
+	{
+		if ((param->fn_texN = ft_strdup(str)) == NULL)
+			ft_exit(4);
+	}
 	if (index == 2)
-		param->fn_texS = ft_strdup(str);
+	{
+		if ((param->fn_texS = ft_strdup(str)) == NULL)
+			ft_exit(4);
+	}
 	if (index == 3)
-		param->fn_texW = ft_strdup(str);
+	{
+		if ((param->fn_texW = ft_strdup(str)) == NULL)
+			ft_exit(4);
+	}
 	if (index == 4)
-		param->fn_texE = ft_strdup(str);
+	{
+		if ((param->fn_texE = ft_strdup(str)) == NULL)
+			ft_exit(4);
+	}
 	if (index == 5)
-		param->fn_tex_sprite = ft_strdup(str);
+	{
+		if ((param->fn_tex_sprite = ft_strdup(str)) == NULL)
+			ft_exit(4);
+	}
 }
 
 void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
@@ -372,6 +387,7 @@ void	ft_check_NSWE(t_param *param)
 				compteur++;
 				param->posX = j + 0.5;
 				param->posY = i + 0.5;
+				// ORIENTATION A RAJOUTER POUR DIRX DIRY
 			}
 			j++;
 		}
@@ -379,6 +395,61 @@ void	ft_check_NSWE(t_param *param)
 	}
 	if (compteur != 1)
 		ft_exit(16);
+}
+
+int		ft_checking(char **check_map, int x, int y, int max)
+{
+	int	ret1;
+	int	ret2;
+	int	ret3;
+	int	ret4;
+
+	ret1 = 1;
+	ret2 = 1;
+	ret3 = 1;
+	ret4 = 1;
+	if (y == max || y == 0 || x == 0 || x == ft_strlen(check_map[y]) || check_map[y][x - 1] == ' ' 
+	|| check_map[y][x + 1] == ' ' || y >= ft_strlen(check_map[y - 1][x] || y >= ft_strlen(check_map[y + 1][x])
+	|| check_map[y - 1][x] == ' ' || check_map[y + 1][x] == ' ')
+		return (-1);
+	check_map[y][x] = 'V';
+	if (check_map[y - 1][x] == '0' || check_map[y - 1][x] == '2')
+		ret1 = ft_checking(check_map, y - 1, x, max);
+	if (check_map[y + 1][x] == '0' || check_map[y + 1][x] == '2')
+		ret2 = ft_checking(check_map, y + 1, x, max);
+	if (check_map[y][x - 1] == '0' || check_map[y][x - 1] == '2')
+		ret3 = ft_checking(check_map, y, x - 1, max);
+	if (check_map[y][x + 1] == '0' || check_map[y][x + 1] == '2')
+		ret4 = ft_checking(check_map, y, x + 1, max);
+	if (ret1 == 1 && ret2 == 1 && ret3 == 1 && ret4 == 1)
+		return(1);
+}
+
+void	ft_check_map(t_param *param)
+{
+	char	**check_map;
+	int		i;
+	int		x;
+	int		y;
+	int		ret;
+
+	i = 0;
+	check_map = malloc(sizeof(char *) * param->mapHeight)
+	if (check_map == NULL)
+		ft_exit(4);
+	while (i < param->mapHeight)
+	{
+		check_map[i] = ft_strdup(param->worldMap[i]);
+		if (check_map[i] == NULL)
+			ft_exit(4);
+		i++;
+	}
+	x = param->posX;
+	y = param->posY;
+	ret = ft_checking(check_map, x, y, i)
+	if (ret == -1)
+		ft_exit(16);
+	ft_free(check_map);
 }
 
 void	ft_parsing(t_param *param, char *str)
