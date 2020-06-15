@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/08 13:29:43 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/15 19:04:17 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,23 @@ typedef	struct		s_sprite
 	double	y;
 }			t_sprite;
 
-typedef struct		s_tex1
+/*typedef struct		s_tex1
 {
 	int				width;
 	int				height;
 	unsigned int	*tab;
-}			t_tex1;
+}			t_tex1;*/
 
-typedef struct		s_tex_sprite
+typedef struct		s_tex
 {
 	int				width;
 	int				height;
 	unsigned int	*tab;
-}			t_tex_sprite;
+}			t_tex;
 
 typedef struct	s_param
 {
-	void		*mlx;
+	void		*mlx; // A GARDER
 	void		*win;
 	double		posX;
 	double		posY;
@@ -101,10 +101,18 @@ typedef struct	s_param
 	int			imglenght;
 	int			endian;
 	int			tab[7];
-	char		*fn_tex1;
+	//char		*fn_tex1;
+	char		*fn_tex_N;
+	char		*fn_tex_S;
+	char		*fn_tex_W;
+	char		*fn_tex_E;
 	char		*fn_tex_sprite;
-	t_tex1		*tex1;
-	t_tex_sprite	*tex_sprite;
+	//t_tex1		*tex1;
+	t_tex		*tex_N;
+	t_tex		*tex_S;
+	t_tex		*tex_W;
+	t_tex		*tex_E;
+	t_tex		*tex_sprite;
 	t_sprite	*tab_sprite;
 	int		nb_sprite;
 	double		*tab_dist_wall;
@@ -177,20 +185,6 @@ char worldMap[24][24]=
   "144444444000000000000001",
   "111111111111111111111111"
 };
-
-/// A MODIFIER AVEC PARSEUR DU .CUB
-void	find_pos(t_param *param)
-{
-	param->posX = 15;
-	param->posY = 12;
-	param->dirX = -1;
-	param->dirY = 0;
-	param->planeX = 0;
-	param->planeY = 0.66;
-	param->winX = 800;
-	param->winY = 600;
-}
-/// A MODIFIER AVEC PARSEUR DU .CUB
 
 void	ft_sort_sprites(t_param *param)
 {
@@ -668,7 +662,7 @@ void	*ft_set_tex_sprite(t_param *param)
 	return (ret);
 }
 
-void	*ft_set_tex(t_param *param)
+void	*ft_set_tex_n(t_param *param)
 {
 	char	*adr;
 	void	*ret;
@@ -678,31 +672,102 @@ void	*ft_set_tex(t_param *param)
 	int		length;
 	int		endian;
 
-	y = 0;
-	param->tex1 = malloc(sizeof(t_tex1) * 1);
-	param->fn_tex1 = "./textures/chaton2.xpm"; // A MODIFIER AVEC LE PARSING
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex1, &param->tex1->width, &param->tex1->height);
+	y = -1;
+	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_N, &param->tex_N->width, &param->tex_N->height);
 	if (ret == NULL)
-		return (ret);
+		ft_exit(4);
 	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex1->tab = malloc(sizeof(unsigned int) * (param->tex1->height * param->tex1->width));
-	if (param->tex1->tab == NULL)
+	param->tex_N->tab = malloc(sizeof(unsigned int) * (param->tex_N->height * param->tex_N->width));
+	if (param->tex_N->tab == NULL)
+		ft_exit(4);
+	while (++y < param->tex_N->height)
 	{
-		ret = NULL;
-		return (ret);
-	}
-	while (y < param->tex1->height)
-	{
-		x = 0;
-		while (x < param->tex1->width)
-		{
-			param->tex1->tab[y * param->tex1->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < param->tex_N->width)
+			param->tex_N->tab[y * param->tex_N->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
 	}
 	mlx_destroy_image(param->mlx, ret);
-	return (ret);
+}
+
+void	*ft_set_tex_s(t_param *param)
+{
+	char	*adr;
+	void	*ret;
+	int		x;
+	int		y;
+	int		bpp;
+	int		length;
+	int		endian;
+
+	y = -1;
+	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_S, &param->tex_S->width, &param->tex_S->height);
+	if (ret == NULL)
+		ft_exit(4);
+	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
+	param->tex_S->tab = malloc(sizeof(unsigned int) * (param->tex_S->height * param->tex_S->width));
+	if (param->tex_S->tab == NULL)
+		ft_exit(4);
+	while (++y < param->tex_S->height)
+	{
+		x = -1;
+		while (++x < param->tex_S->width)
+			param->tex_S->tab[y * param->tex_S->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
+	}
+	mlx_destroy_image(param->mlx, ret);
+}
+
+void	*ft_set_tex_w(t_param *param)
+{
+	char	*adr;
+	void	*ret;
+	int		x;
+	int		y;
+	int		bpp;
+	int		length;
+	int		endian;
+
+	y = -1;
+	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_W, &param->tex_W->width, &param->tex_W->height);
+	if (ret == NULL)
+		ft_exit(4);
+	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
+	param->tex_W->tab = malloc(sizeof(unsigned int) * (param->tex_W->height * param->tex_W->width));
+	if (param->tex_W->tab == NULL)
+		ft_exit(4);
+	while (++y < param->tex_W->height)
+	{
+		x = -1;
+		while (++x < param->tex_W->width)
+			param->tex_W->tab[y * param->tex_W->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
+	}
+	mlx_destroy_image(param->mlx, ret);
+}
+
+void	*ft_set_tex_e(t_param *param)
+{
+	char	*adr;
+	void	*ret;
+	int		x;
+	int		y;
+	int		bpp;
+	int		length;
+	int		endian;
+
+	y = -1;
+	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_E, &param->tex_E->width, &param->tex_E->height);
+	if (ret == NULL)
+		ft_exit(4);
+	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
+	param->tex_E->tab = malloc(sizeof(unsigned int) * (param->tex_E->height * param->tex_E->width));
+	if (param->tex_E->tab == NULL)
+		ft_exit(4);
+	while (++y < param->tex_E->height)
+	{
+		x = -1;
+		while (++x < param->tex_E->width)
+			param->tex_E->tab[y * param->tex_E->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
+	}
+	mlx_destroy_image(param->mlx, ret);
 }
 
 int ft_keyrelease(int key, t_param *param)
@@ -915,27 +980,42 @@ void	ft_exit(int nb)
 	exit(1);
 }
 
+void	ft_set_tabs_tex(t_param *param)
+{
+	if (param->tab_dist_wall = malloc(sizeof(double) * param->winX) == NULL)
+		ft_exit(4);
+	if (param->tex_N = malloc(sizeof(t_tex) * 1) == NULL)
+		ft_exit(4);
+	if (param->tex_S = malloc(sizeof(t_tex) * 1) == NULL)
+		ft_exit(4);
+	if (param->tex_W = malloc(sizeof(t_tex) * 1) == NULL)
+		ft_exit(4);
+	if (param->tex_E = malloc(sizeof(t_tex) * 1) == NULL)
+		ft_exit(4);
+	if (param->tex_sprite = malloc(sizeof(t_tex) * 1) == NULL)
+		ft_exit(4);
+	ft_set_tex_n(param);
+	ft_set_tex_s(param);
+	ft_set_tex_w(param);
+	ft_set_tex_e(param);
+}
+
 int main(int argc, char **argv)
 {
 	t_param	*param;
 	void 	*ret;
 	int		ret2;
 
-	if (argc == 1 || (argc == 2 && ft_check_arg(argv[1]) == 1))
+	if (argc == 2 || (argc == 3 && ft_check_arg(argv[1]) == 1))
 	{
 		param = malloc(sizeof(t_param) * 1);
+		if (param == NULL)
+			ft_exit(4);
 		param->mlx = mlx_init();
-		/*ret2 = ft_parsing(param, argv[1]);
-		if (ret2 == -1)
-		{
-			free(param);
-			return (-1);
-		}*/
-		find_pos(param);
-		param->tab_dist_wall = malloc(sizeof(double) * param->winX);
-		ret = ft_set_tex(param);
-		if (ret == NULL)
-			return(write(1, "An error has occurred\n", 22));
+		if (param->mlx == NULL)
+			ft_exit(4);
+		ft_parsing(param, argv[1]);
+		ft_set_tabs_tex(param);
 		ret = ft_set_sprite(param);
 		if (ret == NULL)
 			return(write(1, "An error has occurred\n", 22));
@@ -943,7 +1023,7 @@ int main(int argc, char **argv)
 		param->imgadr = mlx_get_data_addr(param->img, &param->imgbpp, &param->imglenght, &param->endian);
 		if (argc == 1)
 		{
-			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Nico nico nicoco"); // CHANGER LES X/Y ET NOM
+			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Cub3d"); // CHANGER LES X/Y
 			mlx_hook(param->win, 2, 1L<<0, ft_keypress, param);
 			mlx_hook(param->win, 3, 1L<<1, ft_keyrelease, param);
 			mlx_hook(param->win, 17, 1L<<19, ft_exit2, param); // EVENT MASK A VOIR

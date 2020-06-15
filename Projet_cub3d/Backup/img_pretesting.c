@@ -1,17 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   img.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/12 13:57:32 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/15 19:04:19 by ade-garr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-
 int	ft_check_tab(int tab[8])
 {
 	int	i;
@@ -65,7 +51,7 @@ int	ft_analyse_line_index(char **spltline, int tab[8])
 		if (spltline[0][0] == 'C')
 			index = 7;
 	}
-	return (ft_analyse_line_index2(spltline, tab, index));
+	return (ft_analyse_line_index2(spltline, tab, index))
 }
 
 int	ft_find_long_spltline(char **spltline)
@@ -73,7 +59,7 @@ int	ft_find_long_spltline(char **spltline)
 	int	i;
 
 	i = 0;
-	while (spltline[i] != NULL)
+	while (*spltline[i] != NULL)
 		i++;
 	return (i);
 }
@@ -109,16 +95,14 @@ void	ft_analyse_resolution_info(t_param *param, char **spltline, int index)
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 3)
 		ft_exit(index + 7);
-	ret = ft_check_nb(spltline[1], spltline[2]);
+	ret = ft_check_nb(*spltline[1], *spltline[2]);
 	if (ret == -1)
 		ft_exit(index + 7);
-	param->winX = ft_atoi(spltline[1]);
-	param->winY = ft_atoi(spltline[2]);
-	//mlx_get_screen_size(param->mlx, &screenX_max, &screenY_max); // A MODIFIER AVEC MLX LINUX
+	param->winX = ft_atoi(*spltline[1]);
+	param->winY = ft_atoi(*spltline[2]);
+	mlx_get_screen_size(param->mlx, &screenX_max, &screenY_max);
 	if (param->winX <= 0 || param->winY <= 0)
 		ft_exit(15);
-	screenX_max = 5000;// A ENLEVER
-	screenY_max = 5000;// A ENLEVER	
 	if (param->winX > screenX_max)
 		param->winX = screenX_max;
 	if (param->winY > screenY_max)
@@ -129,22 +113,22 @@ void	ft_param_texture_path(t_param *param, char *str, int index)
 {
 	if (index == 1)
 	{
-		if ((param->fn_tex_N = ft_strdup(str)) == NULL)
+		if ((param->fn_texN = ft_strdup(str)) == NULL)
 			ft_exit(4);
 	}
 	if (index == 2)
 	{
-		if ((param->fn_tex_S = ft_strdup(str)) == NULL)
+		if ((param->fn_texS = ft_strdup(str)) == NULL)
 			ft_exit(4);
 	}
 	if (index == 3)
 	{
-		if ((param->fn_tex_W = ft_strdup(str)) == NULL)
+		if ((param->fn_texW = ft_strdup(str)) == NULL)
 			ft_exit(4);
 	}
 	if (index == 4)
 	{
-		if ((param->fn_tex_E = ft_strdup(str)) == NULL)
+		if ((param->fn_texE = ft_strdup(str)) == NULL)
 			ft_exit(4);
 	}
 	if (index == 5)
@@ -164,11 +148,12 @@ void	ft_analyse_texture_info(t_param *param, char **spltline, int index)
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 2)
 		ft_exit(index + 7);
-	ret = mlx_xpm_file_to_image(param->mlx, spltline[1], &i1, &i2);
+	ret = mlx_xpm_file_to_image(param->mlx, *spltline[1], &i1, &i2);
 	if (ret == NULL)
 		ft_exit(index + 7);
-	ft_param_texture_path(param, spltline[1], index);
+	ft_param_texture_path(param, *spltline[1], index);
 	mlx_destroy_image(param->mlx, ret);
+	
 }
 
 int	ft_check_valid_b(char *str, int index, t_param *param, int i)
@@ -176,9 +161,9 @@ int	ft_check_valid_b(char *str, int index, t_param *param, int i)
 	int	B;
 
 	B = -1;
-	while (str[i] >= 48 && str[i] <= 57)
+	while (str[i] >= 48 || str[i] <= 57)
 	{
-		if (B == -1)
+		if (B = -1)
 			B = str[i] - 48;
 		else
 			B = B * 10 + str[i] - 48;
@@ -202,9 +187,9 @@ int	ft_check_valid_g(char *str, int index, t_param *param, int i)
 	int	G;
 
 	G = -1;
-	while (str[i] >= 48 && str[i] <= 57)
+	while (str[i] >= 48 || str[i] <= 57)
 	{
-		if (G == -1)
+		if (G = -1)
 			G = str[i] - 48;
 		else
 			G = G * 10 + str[i] - 48;
@@ -227,9 +212,9 @@ int	ft_check_valid_r(char *str, int index, t_param *param, int i)
 	int	R;
 
 	R = -1;
-	while (str[i] >= 48 && str[i] <= 57)
+	while (str[i] >= 48 || str[i] <= 57)
 	{
-		if (R == -1)
+		if (R = -1)
 			R = str[i] - 48;
 		else
 			R = R * 10 + str[i] - 48;
@@ -256,9 +241,9 @@ void	ft_analyse_color_info(t_param *param, char **spltline, int index)
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 2)
 		ft_exit(index + 7);
-	i = ft_check_valid_r(spltline[1], index, param, i);
-	i = ft_check_valid_g(spltline[1], index, param, i);
-	i = ft_check_valid_b(spltline[1], index, param, i);
+	i = ft_check_valid_r(*spltline[1], index, param, i);
+	i = ft_check_valid_g(*spltline[1], index, param, i);
+	i = ft_check_valid_b(*spltline[1], index, param, i);
 }
 
 void	ft_analyse_line_info(t_param *param, char **spltline, int index)
@@ -283,7 +268,7 @@ void	ft_analyse_line(t_param *param, char *line, int	tab[8])
 	if (index >= 0 && index <= 7)
 	{
 		ft_analyse_line_info(param, spltline, index);
-		spltline = ft_free(&spltline);
+		ft_free(&spltline);
 		tab[index] = 1;
 	}
 	else
@@ -304,7 +289,7 @@ void	ft_check_line(char *line)
 	}
 }
 
-char	*ft_parsing_empty_line(int fd)
+char	*ft_parsing_empty_line(t_param *param, int fd)
 {
 	char	*line;
 	int		ret;
@@ -383,32 +368,6 @@ void	ft_parsing_get_info(t_param *param, int fd)
 	}
 }
 
-void	ft_param_orient(t_param *param, char c)
-{
-	if (c == 'N')
-	{
-		param->dirX = 0;
-		param->dirY = -1;
-	}
-	if (c == 'S')
-	{
-		param->dirX = 0;
-		param->dirY = 1;
-	}
-	if (c == 'W')
-	{
-		param->dirX = -1;
-		param->dirY = 0;
-	}
-	if (c == 'E')
-	{
-		param->dirX = 1;
-		param->dirY = 0;
-	}
-	param->planeX = 0;
-	param->planeY = 0.66;
-}
-
 void	ft_check_NSWE(t_param *param)
 {
 	int	compteur;
@@ -428,7 +387,7 @@ void	ft_check_NSWE(t_param *param)
 				compteur++;
 				param->posX = j + 0.5;
 				param->posY = i + 0.5;
-				ft_param_orient(param, param->worldMap[i][j]);
+				// ORIENTATION A RAJOUTER POUR DIRX DIRY
 			}
 			j++;
 		}
@@ -449,22 +408,21 @@ int		ft_checking(char **check_map, int x, int y, int max)
 	ret2 = 1;
 	ret3 = 1;
 	ret4 = 1;
-	if (y == max - 1 || y == 0 || x == 0 || (size_t)x == ft_strlen(check_map[y]) - 1 || check_map[y][x - 1] == ' ' 
-	|| check_map[y][x + 1] == ' ' || (size_t)x >= ft_strlen(check_map[y - 1]) || (size_t)x >= ft_strlen(check_map[y + 1])
+	if (y == max || y == 0 || x == 0 || x == ft_strlen(check_map[y]) || check_map[y][x - 1] == ' ' 
+	|| check_map[y][x + 1] == ' ' || y >= ft_strlen(check_map[y - 1][x] || y >= ft_strlen(check_map[y + 1][x])
 	|| check_map[y - 1][x] == ' ' || check_map[y + 1][x] == ' ')
 		return (-1);
 	check_map[y][x] = 'V';
 	if (check_map[y - 1][x] == '0' || check_map[y - 1][x] == '2')
-		ret1 = ft_checking(check_map, x, y - 1, max);
+		ret1 = ft_checking(check_map, y - 1, x, max);
 	if (check_map[y + 1][x] == '0' || check_map[y + 1][x] == '2')
-		ret2 = ft_checking(check_map, x, y + 1, max);
+		ret2 = ft_checking(check_map, y + 1, x, max);
 	if (check_map[y][x - 1] == '0' || check_map[y][x - 1] == '2')
-		ret3 = ft_checking(check_map, x - 1, y, max);
+		ret3 = ft_checking(check_map, y, x - 1, max);
 	if (check_map[y][x + 1] == '0' || check_map[y][x + 1] == '2')
-		ret4 = ft_checking(check_map, x + 1, y, max);
+		ret4 = ft_checking(check_map, y, x + 1, max);
 	if (ret1 == 1 && ret2 == 1 && ret3 == 1 && ret4 == 1)
 		return(1);
-	return(-1);
 }
 
 void	ft_check_map(t_param *param)
@@ -476,7 +434,7 @@ void	ft_check_map(t_param *param)
 	int		ret;
 
 	i = 0;
-	check_map = malloc(sizeof(char *) * (param->mapHeight + 1));
+	check_map = malloc(sizeof(char *) * param->mapHeight)
 	if (check_map == NULL)
 		ft_exit(4);
 	while (i < param->mapHeight)
@@ -486,13 +444,12 @@ void	ft_check_map(t_param *param)
 			ft_exit(4);
 		i++;
 	}
-	check_map[i] = NULL;
 	x = param->posX;
 	y = param->posY;
-	ret = ft_checking(check_map, x, y, param->mapHeight);
+	ret = ft_checking(check_map, x, y, i)
 	if (ret == -1)
 		ft_exit(16);
-	check_map = ft_free(&check_map);
+	ft_free(check_map);
 }
 
 void	ft_parsing(t_param *param, char *str)
@@ -504,7 +461,7 @@ void	ft_parsing(t_param *param, char *str)
     if (fd == -1)
         ft_exit(3);
 	ft_parsing_get_info(param, fd);
-	line = ft_parsing_empty_line(fd);
+	line = ft_parsing_empty_line(param, fd);
 	ft_parsing_map(param, fd, line);
 	ft_check_NSWE(param);
 	ft_check_map(param);
