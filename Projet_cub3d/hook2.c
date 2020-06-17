@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:21:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 14:54:24 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/17 16:09:21 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_exit2(t_param *param)
 {
     (void)param;
-	write(1, "progam successfully exited\n", 27);
+	write(1, "Program successfully exited\n", 28);
 	exit(1);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:46:39 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 10:54:00 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/17 16:28:13 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void    ft_param_sprites(t_param *param)
 		{
 			if (param->worldMap[y][x] == '2')
 			{
-				param->tab_sprite[i].x = x;
-				param->tab_sprite[i].y = y;
+				param->tab_sprite[i].x = x + 0.5;
+				param->tab_sprite[i].y = y + 0.5;
 				i++;
 			}
 			x++;
