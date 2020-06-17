@@ -6,129 +6,11 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/15 19:04:17 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:09:19 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define screenWidth 640
-#define screenHeight 480
-#define mapWidth 24
-#define mapHeight 24
-
-#include <mlx.h>
-#include <math.h>
-#include <unistd.h> // A SUPPRIMER -> inclu dans libft
-#include <stdlib.h>
-#include <stdio.h>
-#include <limits.h>
-#include <float.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-typedef struct		s_img
-{
-    int             file_size;
-    short           reserved1;
-    short           reserved2;
-    unsigned int    offset_bits;
-    unsigned int    size_header;
-    unsigned int    width;
-    unsigned int    height;
-    short int       planes;
-    short int       bbp;
-    unsigned int    compression;
-    unsigned int    image_size;
-    unsigned int    ppm_x;
-    unsigned int    ppm_y;
-    unsigned int    clr_total;
-    unsigned int    clr_important;
-}					t_img;
-
-typedef	struct		s_sprite
-{
-	double	x;
-	double	y;
-}			t_sprite;
-
-/*typedef struct		s_tex1
-{
-	int				width;
-	int				height;
-	unsigned int	*tab;
-}			t_tex1;*/
-
-typedef struct		s_tex
-{
-	int				width;
-	int				height;
-	unsigned int	*tab;
-}			t_tex;
-
-typedef struct	s_param
-{
-	void		*mlx; // A GARDER
-	void		*win;
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
-	int			mapX;
-	int			mapY;
-	double		winX;
-	double		winY;
-	double		sideDistX;
-	double		sideDistY;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		wallDist;
-	int			stepX;
-	int			stepY;
-	int			hit;
-	int			side;
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
-	int			color; // A VOIR SI NECESSAIRE A LA FIN
-	void		*img; // POUR OPTI
-	char		*imgadr; // POUR OPTI
-	int			imgbpp;
-	int			imglenght;
-	int			endian;
-	int			tab[7];
-	//char		*fn_tex1;
-	char		*fn_tex_N;
-	char		*fn_tex_S;
-	char		*fn_tex_W;
-	char		*fn_tex_E;
-	char		*fn_tex_sprite;
-	//t_tex1		*tex1;
-	t_tex		*tex_N;
-	t_tex		*tex_S;
-	t_tex		*tex_W;
-	t_tex		*tex_E;
-	t_tex		*tex_sprite;
-	t_sprite	*tab_sprite;
-	int		nb_sprite;
-	double		*tab_dist_wall;
-	int		*sprite_order;
-	double		*sprite_distance;
-	int			floorR;
-	int			floorG;
-	int			floorB;
-	int			cellR;
-	int			cellG;
-	int			cellB;
-	//int			mapWidth;
-	//int			mapHeight;
-	//char		**worldMap;
-	
-}				t_param;
+#include "libft.h"
 
 /*int worldMap[mapHeight][mapWidth]=
 {
@@ -158,7 +40,7 @@ typedef struct	s_param
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };*/
 
-char worldMap[24][24]=
+/*char worldMap[24][24]=
 {
   "111111111111111111111111",
   "100000000000000000000001",
@@ -184,33 +66,7 @@ char worldMap[24][24]=
   "140000000000000000000001",
   "144444444000000000000001",
   "111111111111111111111111"
-};
-
-void	ft_sort_sprites(t_param *param)
-{
-	int		i;
-	double	tmp_dist;
-	int		tmp_order;
-
-	i = 0;
-	if (param->nb_sprite >= 2)
-	{
-		while (i < param->nb_sprite - 1)
-		{
-			if (param->sprite_distance[i] < param->sprite_distance[i + 1])
-			{
-				tmp_dist = param->sprite_distance[i];
-				param->sprite_distance[i] = param->sprite_distance[i + 1];
-				param->sprite_distance[i + 1] = tmp_dist;
-				tmp_order = param->sprite_order[i];
-				param->sprite_order[i] = param->sprite_order[i + 1];
-				param->sprite_order[i + 1] = tmp_order;
-				i = -1;
-			}
-			i++;
-		}
-	}
-}
+};*/
 
 void	ft_spritecasting(t_param *param)
 {
@@ -238,9 +94,7 @@ void	ft_spritecasting(t_param *param)
 	while (i < param->nb_sprite)
 	{
 		param->sprite_order[i] = i;
-		param->sprite_distance[i] = (param->posX - param->tab_sprite[i].x) *
-		(param->posX - param->tab_sprite[i].x) + (param->posY - param->tab_sprite[i].y) *
-		(param->posY - param->tab_sprite[i].y);
+		param->sprite_distance[i] = (param->posX - param->tab_sprite[i].x) * (param->posX - param->tab_sprite[i].x) + (param->posY - param->tab_sprite[i].y) * (param->posY - param->tab_sprite[i].y);
 		i++;
 	}
 	ft_sort_sprites(param);
@@ -265,13 +119,12 @@ void	ft_spritecasting(t_param *param)
 		if (draw_startX < 0)
 			draw_startX = 0;
 		draw_endX = sprite_width / 2 + sprite_screenX;
-		if (draw_endX >= param-> winX)
+		if (draw_endX >= param->winX)
 			draw_endX = param->winX;
 		x = draw_startX;
 		while (x < draw_endX)
 		{
-			texX = ((x - (-sprite_width / 2 + sprite_screenX)) *
-			param->tex_sprite->width / sprite_width);
+			texX = ((x - (-sprite_width / 2 + sprite_screenX)) * param->tex_sprite->width / sprite_width);
 			if (transformY > 0 && x >= 0 && x < param->winX && transformY < param->tab_dist_wall[x])
 			{
 				y = draw_startY;
@@ -282,8 +135,7 @@ void	ft_spritecasting(t_param *param)
 					if (param->tex_sprite->tab[texY * param->tex_sprite->width + texX] != 0xFFFFFF)
 					{
 						adr = param->imgadr + (y * param->imglenght + x * (param->imgbpp / 8));
-						*(unsigned int *)adr =
-						param->tex_sprite->tab[param->tex_sprite->width * texY + texX];
+						*(unsigned int *)adr = param->tex_sprite->tab[param->tex_sprite->width * texY + texX];
 					}
 					y++;
 				}
@@ -350,7 +202,7 @@ void	ft_raycasting(t_param *param)
 				param->mapY += param->stepY;
 				param->side = 1;
 			}
-			if (worldMap[param->mapX][param->mapY] > '0' && worldMap[param->mapX][param->mapY] <= '9')
+			if (param->worldMap[param->mapY][param->mapX] == '1')
 				param->hit = 1;
 		}
 		if (param->side == 0)
@@ -370,35 +222,35 @@ void	ft_raycasting(t_param *param)
 		else
 			wallX = param->posX + param->wallDist * param->rayDirX;
 		wallX -= floor(wallX);
-		texX = wallX * param->tex1->width;
+		texX = wallX * param->tex_N->width;
 		if (param->side == 0 && param->rayDirX > 0)
-			texX = param->tex1->width - texX - 1;
+			texX = param->tex_N->width - texX - 1;
 		if (param->side == 1 && param->rayDirY < 0)
-			texX = param->tex1->width - texX - 1;
-		step = 1.0 * param->tex1->height / param->lineHeight;
+			texX = param->tex_N->width - texX - 1;
+		step = 1.0 * param->tex_N->height / param->lineHeight;
 		texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
 		xfloorcell = 0;
 		while (xfloorcell < param->drawStart)
 		{
 			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = 0x5AFDFF;
+			*(unsigned int *)adr = 0x5AFDFF; // A MODIFIER EN FONCTION PARSING
 			xfloorcell++;
 		}
 		while (param->drawStart < param->drawEnd)
 		{
 			texY = texPos;
-			if (texY >= param->tex1->height)
-				texY = param->tex1->height - 1;
+			if (texY >= param->tex_N->height)
+				texY = param->tex_N->height - 1;
 			texPos = texPos + step;
 			adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = param->tex1->tab[param->tex1->width * texY + texX];
+			*(unsigned int *)adr = param->tex_N->tab[param->tex_N->width * texY + texX];
 			param->drawStart++;
 		}
 		xfloorcell = param->drawEnd;
 		while (xfloorcell < param->winY)
 		{
 			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = 0x01D364;
+			*(unsigned int *)adr = 0x01D364; // A MODIFIER EN FONCTION PARSING
 			xfloorcell++;
 		}
 		param->tab_dist_wall[x] = param->wallDist;
@@ -407,606 +259,32 @@ void	ft_raycasting(t_param *param)
 	ft_spritecasting(param);
 }
 
-double	ft_max(double a, double b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-double	ft_min(double a, double b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-int	ft_checkcollision(t_param *param, double Speed, double rectX, double rectY)
-{
-	double	deltaX;
-	double	deltaY;
-	double	radius;
-	
-	radius = 0.1;
-	deltaX = param->posX + param->dirX * Speed -
-	ft_max(rectX, ft_min(param->posX + param->dirX * Speed, rectX + 1));
-	deltaY = param->posY + param->dirY * Speed -
-	ft_max(rectY, ft_min(param->posY + param->dirY * Speed, rectY + 1));
-	if (deltaX * deltaX + deltaY * deltaY < radius * radius)
-		return (1);
-	return (0);
-}
-
-int	ft_bodycollision(t_param *param, double Speed)
-{	
-	double	rectX;
-	double	rectY;
-
-	rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY) - 1;
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX);
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY);
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX);
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	rectX = floor(param->posX) + 1;
-	if (worldMap[(int)rectX][(int)rectY] != '0')
-	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
-			return (1);
-	}
-	return (0);
-}
-
-int	ft_loop(t_param *param)
-{
-	double	oldDirX;
-	double	oldDirY;
-	double	oldPlaneX;
-	double	Speed;
-	double	rotSpeed;
-
-	Speed = 0.025;
-	rotSpeed = 0.025;
-	if (param->tab[6] == 1)
-		Speed = 0.05;
-	if (param->tab[0] == 1)
-	{
-		if (worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0)
-		{	
-			param->posX += param->dirX * Speed;
-			param->posY += param->dirY * Speed;
-		}
-	}
-	if (param->tab[1] == 1)
-	{
-		oldDirX = param->dirX;
-		oldDirY = param->dirY;
-		param->dirX = - param->dirX;
-		param->dirY = - param->dirY;
-		if (worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0)
-		{
-			param->posX += param->dirX * Speed;
-			param->posY += param->dirY * Speed;
-		}
-		param->dirX = oldDirX;
-		param->dirY = oldDirY;
-	}
-	if (param->tab[2] == 1)
-	{
-		oldDirX = param->dirX;
-		oldDirY = param->dirY;
-		param->dirX = param->dirX * cos(M_PI/2) - param->dirY * sin(M_PI/2);
-		param->dirY = oldDirX * sin(M_PI/2) + param->dirY * cos(M_PI/2);
-		if(worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0) 
-		{
-			param->posX += param->dirX * Speed;
-			param->posY += param->dirY * Speed;
-		}
-		param->dirX = oldDirX;
-		param->dirY = oldDirY;
-	}
-	if (param->tab[3] == 1)
-	{
-		oldDirX = param->dirX;
-		oldDirY = param->dirY;
-		param->dirX = param->dirX * cos(-M_PI/2) - param->dirY * sin(-M_PI/2);
-		param->dirY = oldDirX * sin(-M_PI/2) + param->dirY * cos(-M_PI/2);
-		if(worldMap[(int)(param->posX + param->dirX * Speed)]
-		[(int)(param->posY + param->dirY * Speed)] == '0' && ft_bodycollision(param, Speed) == 0) 
-		{
-			param->posX += param->dirX * Speed;
-			param->posY += param->dirY * Speed;
-		}
-		param->dirX = oldDirX;
-		param->dirY = oldDirY;
-	}
-	if (param->tab[4] == 1)
-	{
-		oldDirX = param->dirX;
-		param->dirX = param->dirX * cos(-rotSpeed) - param->dirY * sin(-rotSpeed);
-		param->dirY = oldDirX * sin(-rotSpeed) + param->dirY * cos(-rotSpeed);
-		oldPlaneX = param->planeX;
-		param->planeX = param->planeX * cos(-rotSpeed) - param->planeY * sin(-rotSpeed);
-		param->planeY = oldPlaneX * sin(-rotSpeed) + param->planeY * cos(-rotSpeed);
-	}
-	if (param->tab[5] == 1)
-	{
-		oldDirX = param->dirX;
-		param->dirX = param->dirX * cos(rotSpeed) - param->dirY * sin(rotSpeed);
-		param->dirY = oldDirX * sin(rotSpeed) + param->dirY * cos(rotSpeed);
-		oldPlaneX = param->planeX;
-		param->planeX = param->planeX * cos(rotSpeed) - param->planeY * sin(rotSpeed);
-		param->planeY = oldPlaneX * sin(rotSpeed) + param->planeY * cos(rotSpeed);
-	}
-	ft_raycasting(param);
-	mlx_put_image_to_window(param->mlx, param->win, param->img, 0, 0);
-	return (0);
-}
-
-int	ft_keypress(int key, t_param *param)
-{
-	//LINUX
-	/*if (key == 122)
-		param->tab[0] = 1;
-	if (key == 115)
-		param->tab[1] = 1;
-	if (key == 113)
-		param->tab[2] = 1;
-	if (key == 100)
-		param->tab[3] = 1;
-	if (key == 65363)
-		param->tab[4] = 1;
-	if (key == 65361)
-		param->tab[5] = 1;
-	if (key == 65505)
-		param->tab[6] = 1;
-	if (key == 65307)
-		exit(1);*/
-
-	//MACOS
-	if (key == 13)
-		param->tab[0] = 1;
-	if (key == 1)
-		param->tab[1] = 1;
-	if (key == 0)
-		param->tab[2] = 1;
-	if (key == 2)
-		param->tab[3] = 1;
-	if (key == 124)
-		param->tab[4] = 1;
-	if (key == 123)
-		param->tab[5] = 1;
-	if (key == 257)
-		param->tab[6] = 1;
-	if (key == 53)
-		exit(1);
-	return (0);
-}
-
-void	*ft_set_tex_sprite(t_param *param)
-{
-	char	*adr;
-	void	*ret;
-	int		x;
-	int		y;
-	int		bpp;
-	int		length;
-	int		endian;
-
-	y = 0;
-	param->tex_sprite = malloc(sizeof(t_tex_sprite) * 1);
-	param->fn_tex_sprite = "./textures/sprite_chaton.xpm"; // A MODIFIER AVEC LE PARSING
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_sprite, &param->tex_sprite->width,
-	&param->tex_sprite->height);
-	if (ret == NULL)
-		return (ret);
-	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex_sprite->tab = malloc(sizeof(unsigned int) *
-	(param->tex_sprite->height * param->tex_sprite->width));
-	if (param->tex_sprite->tab == NULL)
-		return (NULL);
-	while (y < param->tex_sprite->height)
-	{
-		x = 0;
-		while (x < param->tex_sprite->width)
-		{
-			param->tex_sprite->tab[y * param->tex_sprite->width + x] =
-			*(unsigned int *)(adr + y * length + x * bpp / 8);
-			x++;
-		}
-		y++;
-	}
-	mlx_destroy_image(param->mlx, ret);
-	return (ret);
-}
-
-void	*ft_set_tex_n(t_param *param)
-{
-	char	*adr;
-	void	*ret;
-	int		x;
-	int		y;
-	int		bpp;
-	int		length;
-	int		endian;
-
-	y = -1;
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_N, &param->tex_N->width, &param->tex_N->height);
-	if (ret == NULL)
-		ft_exit(4);
-	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex_N->tab = malloc(sizeof(unsigned int) * (param->tex_N->height * param->tex_N->width));
-	if (param->tex_N->tab == NULL)
-		ft_exit(4);
-	while (++y < param->tex_N->height)
-	{
-		x = -1;
-		while (++x < param->tex_N->width)
-			param->tex_N->tab[y * param->tex_N->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
-	}
-	mlx_destroy_image(param->mlx, ret);
-}
-
-void	*ft_set_tex_s(t_param *param)
-{
-	char	*adr;
-	void	*ret;
-	int		x;
-	int		y;
-	int		bpp;
-	int		length;
-	int		endian;
-
-	y = -1;
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_S, &param->tex_S->width, &param->tex_S->height);
-	if (ret == NULL)
-		ft_exit(4);
-	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex_S->tab = malloc(sizeof(unsigned int) * (param->tex_S->height * param->tex_S->width));
-	if (param->tex_S->tab == NULL)
-		ft_exit(4);
-	while (++y < param->tex_S->height)
-	{
-		x = -1;
-		while (++x < param->tex_S->width)
-			param->tex_S->tab[y * param->tex_S->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
-	}
-	mlx_destroy_image(param->mlx, ret);
-}
-
-void	*ft_set_tex_w(t_param *param)
-{
-	char	*adr;
-	void	*ret;
-	int		x;
-	int		y;
-	int		bpp;
-	int		length;
-	int		endian;
-
-	y = -1;
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_W, &param->tex_W->width, &param->tex_W->height);
-	if (ret == NULL)
-		ft_exit(4);
-	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex_W->tab = malloc(sizeof(unsigned int) * (param->tex_W->height * param->tex_W->width));
-	if (param->tex_W->tab == NULL)
-		ft_exit(4);
-	while (++y < param->tex_W->height)
-	{
-		x = -1;
-		while (++x < param->tex_W->width)
-			param->tex_W->tab[y * param->tex_W->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
-	}
-	mlx_destroy_image(param->mlx, ret);
-}
-
-void	*ft_set_tex_e(t_param *param)
-{
-	char	*adr;
-	void	*ret;
-	int		x;
-	int		y;
-	int		bpp;
-	int		length;
-	int		endian;
-
-	y = -1;
-	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_E, &param->tex_E->width, &param->tex_E->height);
-	if (ret == NULL)
-		ft_exit(4);
-	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
-	param->tex_E->tab = malloc(sizeof(unsigned int) * (param->tex_E->height * param->tex_E->width));
-	if (param->tex_E->tab == NULL)
-		ft_exit(4);
-	while (++y < param->tex_E->height)
-	{
-		x = -1;
-		while (++x < param->tex_E->width)
-			param->tex_E->tab[y * param->tex_E->width + x] = *(unsigned int *)(adr + y * length + x * bpp / 8);
-	}
-	mlx_destroy_image(param->mlx, ret);
-}
-
-int ft_keyrelease(int key, t_param *param)
-{
-	//LINUX
-	/*if (key == 122)
-		param->tab[0] = 0;
-	if (key == 115)
-		param->tab[1] = 0;
-	if (key == 113)
-		param->tab[2] = 0;
-	if (key == 100)
-		param->tab[3] = 0;
-	if (key == 65363)
-		param->tab[4] = 0;
-	if (key == 65361)
-		param->tab[5] = 0;
-	if (key == 65505)
-		param->tab[6] = 0;*/
-	
-	//MACOS
-	if (key == 13)
-		param->tab[0] = 0;
-	if (key == 1)
-		param->tab[1] = 0;
-	if (key == 0)
-		param->tab[2] = 0;
-	if (key == 2)
-		param->tab[3] = 0;
-	if (key == 124)
-		param->tab[4] = 0;
-	if (key == 123)
-		param->tab[5] = 0;
-	if (key == 257)
-		param->tab[6] = 0;
-	return (0);
-}
-
-void	*ft_set_sprite(t_param *param)
-{
-	void	*ret;
-
-	ret = ft_set_tex_sprite(param);
-	if (ret == NULL)
-		return (ret);
-	param->nb_sprite = 3; // A MODIFIER AVEC PARSING
-	param->tab_sprite = malloc(sizeof(t_sprite) * param->nb_sprite);
-	if (param->tab_sprite == NULL)
-		return (NULL);
-	param->tab_sprite[0].x = 6; // A MODIFIER AVEC PARSING
-	param->tab_sprite[0].y = 8; // A MODIFIER AVEC PARSING
-	param->tab_sprite[1].x = 6; // A MODIFIER AVEC PARSING
-	param->tab_sprite[1].y = 9; // A MODIFIER AVEC PARSING
-	param->tab_sprite[2].x = 7; // A MODIFIER AVEC PARSING
-	param->tab_sprite[2].y = 8.5; // A MODIFIER AVEC PARSING
-	param->sprite_order = malloc(sizeof(int) * param->nb_sprite);
-	if (param->sprite_order == NULL)
-		return (NULL);
-	param->sprite_distance = malloc(sizeof(double) * param->nb_sprite);
-	if (param->sprite_order == NULL)
-		return (NULL);
-	return (ret);
-}
-
-void	ft_define_ptr(t_param *param, t_img *ptr)
-{
-    ptr->file_size = param->winX * param->winY * 4 + 54;
-    ptr->reserved1 = 0;
-    ptr->reserved2 = 0;
-    ptr->offset_bits = 54;
-    ptr->size_header = 40;
-    ptr->width = param->winX;
-    ptr->height = param->winY;
-    ptr->planes = 1;
-    ptr->bbp = 32;
-    ptr->compression = 0;
-    ptr->image_size = 0;
-    ptr->ppm_x = 0;
-    ptr->ppm_y = 0;
-    ptr->clr_total = 0;
-    ptr->clr_important = 0;
-}
-
-int	ft_tab_in_img(t_param *param, int fd)
-{
-	int	i;
-	int	x;
-	int	y;
-	unsigned int	*tab;
-
-	tab = malloc(sizeof(int) * (param->winY * param->winX));
-	if (tab == NULL)
-		return (-1);
-	y = param->winY - 1;
-	i = 0;
-	while (i < (param->winX * param->winY))
-	{
-		x = 0;
-		while (x++ < param->winX)
-			tab[i++] = *(unsigned int *)(param->imgadr + y * param->imglenght + x * param->imgbpp / 8);
-		y--;
-	}
-	if (write(fd, tab, param->winX * param->winY * 4) == -1)
-	{
-		free(tab);
-		return (-1);
-	}
-	free(tab);
-	return (1);
-}
-
-int	ft_create_img(t_param *param)
-{
-	int	fd;
-	int	ret;
-	t_img	*ptr;
-
-	ptr = malloc(sizeof(t_img) * 1);
-	if (ptr == NULL)
-		return (-1);
-	ft_define_ptr(param, ptr);
-	fd = open("img_cub3d.bmp", O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
-	if (fd == -1)
-	{
-		free(ptr);
-		return (-1);
-	}
-	if (write(fd, "BM", 2) == -1 || write(fd, ptr, 52) == -1)
-	{
-		close(fd);
-		free(ptr);
-		return (-1);
-	}
-	ret = ft_tab_in_img(param, fd);
-	close(fd);
-	free(ptr);
-	return (ret);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return(0);
-	while (str[i] != '\0')
-		i++;
-	return(i);
-}
-
-int	ft_check_arg(char *str)
-{
-	char cmp[] = "--save";
-	int	i;
-
-	i = 0;
-	if (ft_strlen(str) != 6)
-		return (0);
-	while (str[i] != '\0')
-	{
-		if (str[i] != cmp[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	ft_exit2(t_param *param)
-{
-	(void)param;
-	exit(1);
-	return (0);
-}
-
-void	ft_exit(int nb)
-{
-	if (nb == 1)
-		write(1, "Error : failed to create an image\n", 34);
-	if (nb == 2)
-		write(1, "Error : invalid arguments\n", 26);
-	if (nb == 3)
-		write(1, "Error : invalid .cub filename or couldn't open the file\n", 56);
-	if (nb == 4)
-		write(1, "Error : impossible to read .cub file, program stopped\n", 54);
-	if (nb == 5)
-		write(1, "Error : incorrect .cub file\n", 28);
-	if (nb == 6)
-		write(1, "Error : information unknown or in double in .cub file\n", 54);
-	if (nb == 7)
-		write(1, "Error : resolution information incorrect\n", 41);
-	if (nb == 8)
-		write(1, "Error : north texture information incorrect\n", 44);
-	if (nb == 9)
-		write(1, "Error : south texture information incorrect\n", 44);
-	if (nb == 10)
-		write(1, "Error : west texture information incorrect\n", 43);
-	if (nb == 11)
-		write(1, "Error : east texture information incorrect\n", 43);
-	if (nb == 12)
-		write(1, "Error : sprite texture information incorrect\n", 45);
-	if (nb == 13)
-		write(1, "Error : floor color information incorrect\n", 42);
-	if (nb == 14)
-		write(1, "Error : cell color information incorrect\n", 41);
-	if (nb == 15)
-		write(1, "Error : resolution <= 0\n", 24);
-	if (nb == 16)
-		write(1, "Error : incorrect map\n", 22);
-	exit(1);
-}
-
 void	ft_set_tabs_tex(t_param *param)
 {
-	if (param->tab_dist_wall = malloc(sizeof(double) * param->winX) == NULL)
+	if ((param->tab_dist_wall = malloc(sizeof(double) * param->winX)) == NULL)
 		ft_exit(4);
-	if (param->tex_N = malloc(sizeof(t_tex) * 1) == NULL)
+	if ((param->tex_N = malloc(sizeof(t_tex) * 1)) == NULL)
 		ft_exit(4);
-	if (param->tex_S = malloc(sizeof(t_tex) * 1) == NULL)
+	if ((param->tex_S = malloc(sizeof(t_tex) * 1)) == NULL)
 		ft_exit(4);
-	if (param->tex_W = malloc(sizeof(t_tex) * 1) == NULL)
+	if ((param->tex_W = malloc(sizeof(t_tex) * 1)) == NULL)
 		ft_exit(4);
-	if (param->tex_E = malloc(sizeof(t_tex) * 1) == NULL)
+	if ((param->tex_E = malloc(sizeof(t_tex) * 1)) == NULL)
 		ft_exit(4);
-	if (param->tex_sprite = malloc(sizeof(t_tex) * 1) == NULL)
+	if ((param->tex_sprite = malloc(sizeof(t_tex) * 1)) == NULL)
 		ft_exit(4);
 	ft_set_tex_n(param);
 	ft_set_tex_s(param);
 	ft_set_tex_w(param);
 	ft_set_tex_e(param);
+	ft_set_tex_sprite(param);
 }
 
 int main(int argc, char **argv)
 {
 	t_param	*param;
-	void 	*ret;
-	int		ret2;
 
-	if (argc == 2 || (argc == 3 && ft_check_arg(argv[1]) == 1))
+	if (argc == 2 || (argc == 3 && ft_check_arg(argv[2]) == 1))
 	{
 		param = malloc(sizeof(t_param) * 1);
 		if (param == NULL)
@@ -1016,29 +294,29 @@ int main(int argc, char **argv)
 			ft_exit(4);
 		ft_parsing(param, argv[1]);
 		ft_set_tabs_tex(param);
-		ret = ft_set_sprite(param);
-		if (ret == NULL)
-			return(write(1, "An error has occurred\n", 22));
+		ft_set_sprite(param);
 		param->img = mlx_new_image(param->mlx, param->winX, param->winY);
+		if (param->img == NULL)
+			ft_exit(4);
 		param->imgadr = mlx_get_data_addr(param->img, &param->imgbpp, &param->imglenght, &param->endian);
-		if (argc == 1)
+		if (argc == 2)
 		{
-			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Cub3d"); // CHANGER LES X/Y
+			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Cub3d");
+			if (param->win == NULL)
+				ft_exit(4);
 			mlx_hook(param->win, 2, 1L<<0, ft_keypress, param);
 			mlx_hook(param->win, 3, 1L<<1, ft_keyrelease, param);
-			mlx_hook(param->win, 17, 1L<<19, ft_exit2, param); // EVENT MASK A VOIR
+			mlx_hook(param->win, 17, 1L<<17, ft_exit2, param);
 			mlx_loop_hook(param->mlx, ft_loop, param);
 			mlx_loop(param->mlx);
 		}
 		else
 		{
 			ft_raycasting(param);
-			ret2 = ft_create_img(param);
-			if (ret2 == -1)
-				ft_exit(1);
+			ft_create_img(param);
 		}
 	}
 	else
-		ft_exit(2); // A MODIFIER
+		ft_exit(2);
 	return (1);
 }
