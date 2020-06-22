@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 16:23:40 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 14:26:10 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	ft_raycasting(t_param *param)
 		while (xfloorcell < param->drawStart)
 		{
 			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = 0x5AFDFF; // A MODIFIER EN FONCTION PARSING
+			*(unsigned int *)adr = param->cellcolor;
 			xfloorcell++;
 		}
 		while (param->drawStart < param->drawEnd)
@@ -194,7 +194,7 @@ void	ft_raycasting(t_param *param)
 		while (xfloorcell < param->winY)
 		{
 			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = 0x01D364; // A MODIFIER EN FONCTION PARSING
+			*(unsigned int *)adr = param->floorcolor;
 			xfloorcell++;
 		}
 		param->tab_dist_wall[x] = param->wallDist;
@@ -222,6 +222,7 @@ void	ft_set_tabs_tex(t_param *param)
 	ft_set_tex_w(param);
 	ft_set_tex_e(param);
 	ft_set_tex_sprite(param);
+	ft_set_local_endian(param);
 }
 
 int main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 13:59:13 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 14:55:56 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 14:27:09 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,15 @@ void    ft_free_map(char **map, t_param *param)
         y++;
     }
     free(map);
+}
+
+void    ft_set_local_endian(t_param *param)
+{
+    int endian;
+
+    endian = 0x11223344;
+    if (((unsigned char *)&endian)[0] == 0x11)
+        param->local_endian = 1;
+    else
+        param->local_endian = 0;   
 }

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:40:47 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 14:52:10 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 13:25:58 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	ft_tab_in_img(t_param *param, int fd)
 	i = 0;
 	while (i < (param->winX * param->winY))
 	{
-		x = -1; // A VOIR SI CHANGEMENT OK
-		while (++x < param->winX) // A VOIR SI CHANGEMENT OK
+		x = -1;
+		while (++x < param->winX)
 			tab[i++] = *(unsigned int *)(param->imgadr + y * param->imglenght + x * param->imgbpp / 8);
 		y--;
 	}
@@ -64,7 +64,7 @@ void	ft_create_img(t_param *param)
 	if (ptr == NULL)
 		ft_exit(1);
 	ft_define_ptr(param, ptr);
-	fd = open("cub3d_img.bmp", O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
+	fd = open("cub3d_img.bmp", O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	if (fd == -1)
 		ft_exit(1);	
 	if (write(fd, "BM", 2) == -1 || write(fd, ptr, 52) == -1)

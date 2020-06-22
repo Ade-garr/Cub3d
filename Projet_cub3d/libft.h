@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 15:03:00 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 14:26:49 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ typedef struct	s_param
 	double		*tab_dist_wall;
 	int		*sprite_order;
 	double		*sprite_distance;
+	int			local_endian;
+	unsigned int	floorcolor;
+	unsigned int	cellcolor;
 	int			floorR;
 	int			floorG;
 	int			floorB;
@@ -244,5 +247,6 @@ void	ft_set_tex_e(t_param *param);
 void	ft_spritecasting(t_param *param);
 void	ft_raycasting(t_param *param);
 void	ft_set_tabs_tex(t_param *param);
+void	ft_set_local_endian(t_param *param);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 14:05:06 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/03/05 16:38:01 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 16:53:14 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "mlx.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 int	main()
 {
-	char x[2][4] = {"123", "000"};
+	int	fd;
 
-	//ft_test(x);
-	printf("%c\n", x[0][3]);
+	fd = open("test", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	write(fd, "12", 2);
+	close(fd);
+	fd = open("test", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	write(fd, "2", 1);
+	close(fd);
 	return (0);	
 }

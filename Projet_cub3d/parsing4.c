@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:03:39 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 11:04:06 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/22 12:57:52 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ void	ft_analyse_line_info(t_param *param, char **spltline, int index)
 	if (index > 0 && index <= 5)
 		ft_analyse_texture_info(param, spltline, index);
 	if (index > 5)
+	{
 		ft_analyse_color_info(param, spltline, index);
+		param->floorcolor = param->floorB + param->floorG * 256 + param->floorR * 65536;
+		param->cellcolor = param->cellB + param->cellG * 256 + param->cellR * 65536;
+	}
 }
 
 void	ft_analyse_line(t_param *param, char *line, int	tab[8])
