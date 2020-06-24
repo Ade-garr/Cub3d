@@ -6,13 +6,13 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:21:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 16:09:21 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/24 20:06:10 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_exit2(t_param *param)
+int	ft_exithook(t_param *param)
 {
     (void)param;
 	write(1, "Program successfully exited\n", 28);
@@ -56,7 +56,7 @@ int	ft_keypress(int key, t_param *param)
 	if (key == 257)
 		param->tab[6] = 1;
 	if (key == 53)
-		ft_exit2(param);
+		ft_exithook(param);
 	return (1);
 }
 

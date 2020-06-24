@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/22 14:26:10 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/24 20:06:12 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,39 +166,154 @@ void	ft_raycasting(t_param *param)
 		else
 			wallX = param->posX + param->wallDist * param->rayDirX;
 		wallX -= floor(wallX);
-		texX = wallX * param->tex_N->width;
-		if (param->side == 0 && param->rayDirX > 0)
-			texX = param->tex_N->width - texX - 1;
 		if (param->side == 1 && param->rayDirY < 0)
-			texX = param->tex_N->width - texX - 1;
-		step = 1.0 * param->tex_N->height / param->lineHeight;
-		texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
-		xfloorcell = 0;
-		while (xfloorcell < param->drawStart)
 		{
-			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = param->cellcolor;
-			xfloorcell++;
+			//ft_raycasting_north(param, raycast);
+			texX = wallX * param->tex_N->width;
+			if (param->side == 0 && param->rayDirX > 0)
+				texX = param->tex_N->width - texX - 1;
+			if (param->side == 1 && param->rayDirY < 0)
+				texX = param->tex_N->width - texX - 1;
+			step = 1.0 * param->tex_N->height / param->lineHeight;
+			texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
+			xfloorcell = 0;
+			while (xfloorcell < param->drawStart)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->cellcolor;
+				xfloorcell++;
+			}
+			while (param->drawStart < param->drawEnd)
+			{
+				texY = texPos;
+				if (texY >= param->tex_N->height)
+					texY = param->tex_N->height - 1;
+				texPos = texPos + step;
+				adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->tex_N->tab[param->tex_N->width * texY + texX];
+				param->drawStart++;
+			}
+			xfloorcell = param->drawEnd;
+			while (xfloorcell < param->winY)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->floorcolor;
+				xfloorcell++;
+			}
+			param->tab_dist_wall[x] = param->wallDist;
+			x++;
 		}
-		while (param->drawStart < param->drawEnd)
+		if (param->side == 1 && param->rayDirY > 0)
 		{
-			texY = texPos;
-			if (texY >= param->tex_N->height)
-				texY = param->tex_N->height - 1;
-			texPos = texPos + step;
-			adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = param->tex_N->tab[param->tex_N->width * texY + texX];
-			param->drawStart++;
+			//ft_raycasting_south(param, raycast);
+			texX = wallX * param->tex_S->width;
+			if (param->side == 0 && param->rayDirX > 0)
+				texX = param->tex_S->width - texX - 1;
+			if (param->side == 1 && param->rayDirY < 0)
+				texX = param->tex_S->width - texX - 1;
+			step = 1.0 * param->tex_S->height / param->lineHeight;
+			texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
+			xfloorcell = 0;
+			while (xfloorcell < param->drawStart)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->cellcolor;
+				xfloorcell++;
+			}
+			while (param->drawStart < param->drawEnd)
+			{
+				texY = texPos;
+				if (texY >= param->tex_S->height)
+					texY = param->tex_S->height - 1;
+				texPos = texPos + step;
+				adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->tex_S->tab[param->tex_S->width * texY + texX];
+				param->drawStart++;
+			}
+			xfloorcell = param->drawEnd;
+			while (xfloorcell < param->winY)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->floorcolor;
+				xfloorcell++;
+			}
+			param->tab_dist_wall[x] = param->wallDist;
+			x++;
 		}
-		xfloorcell = param->drawEnd;
-		while (xfloorcell < param->winY)
+		if (param->side == 0 && param->rayDirX < 0)
 		{
-			adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
-			*(unsigned int *)adr = param->floorcolor;
-			xfloorcell++;
+			//ft_raycasting_west(param, raycast);
+			texX = wallX * param->tex_W->width;
+			if (param->side == 0 && param->rayDirX > 0)
+				texX = param->tex_W->width - texX - 1;
+			if (param->side == 1 && param->rayDirY < 0)
+				texX = param->tex_W->width - texX - 1;
+			step = 1.0 * param->tex_W->height / param->lineHeight;
+			texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
+			xfloorcell = 0;
+			while (xfloorcell < param->drawStart)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->cellcolor;
+				xfloorcell++;
+			}
+			while (param->drawStart < param->drawEnd)
+			{
+				texY = texPos;
+				if (texY >= param->tex_W->height)
+					texY = param->tex_W->height - 1;
+				texPos = texPos + step;
+				adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->tex_W->tab[param->tex_W->width * texY + texX];
+				param->drawStart++;
+			}
+			xfloorcell = param->drawEnd;
+			while (xfloorcell < param->winY)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->floorcolor;
+				xfloorcell++;
+			}
+			param->tab_dist_wall[x] = param->wallDist;
+			x++;
 		}
-		param->tab_dist_wall[x] = param->wallDist;
-		x++;
+		if (param->side == 0 && param->rayDirX > 0)
+		{
+			//ft_raycasting_east(param, raycast);
+			texX = wallX * param->tex_E->width;
+			if (param->side == 0 && param->rayDirX > 0)
+				texX = param->tex_E->width - texX - 1;
+			if (param->side == 1 && param->rayDirY < 0)
+				texX = param->tex_E->width - texX - 1;
+			step = 1.0 * param->tex_E->height / param->lineHeight;
+			texPos = (param->drawStart - param->winY / 2 + param->lineHeight / 2) * step;
+			xfloorcell = 0;
+			while (xfloorcell < param->drawStart)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->cellcolor;
+				xfloorcell++;
+			}
+			while (param->drawStart < param->drawEnd)
+			{
+				texY = texPos;
+				if (texY >= param->tex_E->height)
+					texY = param->tex_E->height - 1;
+				texPos = texPos + step;
+				adr = param->imgadr + (param->drawStart * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->tex_E->tab[param->tex_E->width * texY + texX];
+				param->drawStart++;
+			}
+			xfloorcell = param->drawEnd;
+			while (xfloorcell < param->winY)
+			{
+				adr = param->imgadr + (xfloorcell * param->imglenght + x * (param->imgbpp / 8));
+				*(unsigned int *)adr = param->floorcolor;
+				xfloorcell++;
+			}
+			param->tab_dist_wall[x] = param->wallDist;
+			x++;
+		}
 	}
 	ft_spritecasting(param);
 }
@@ -233,10 +348,10 @@ int main(int argc, char **argv)
 	{
 		param = malloc(sizeof(t_param) * 1);
 		if (param == NULL)
-			ft_exit(4);
+			ft_exit1();
 		param->mlx = mlx_init();
 		if (param->mlx == NULL)
-			ft_exit(4);
+			ft_exit2(param);
 		ft_parsing(param, argv[1]);
 		ft_set_tabs_tex(param);
 		ft_set_sprite(param);
@@ -251,7 +366,7 @@ int main(int argc, char **argv)
 				ft_exit(4);
 			mlx_hook(param->win, 2, 1L<<0, ft_keypress, param);
 			mlx_hook(param->win, 3, 1L<<1, ft_keyrelease, param);
-			mlx_hook(param->win, 17, 1L<<17, ft_exit2, param);
+			mlx_hook(param->win, 17, 1L<<17, ft_exithook, param);
 			mlx_loop_hook(param->mlx, ft_loop, param);
 			mlx_loop(param->mlx);
 		}

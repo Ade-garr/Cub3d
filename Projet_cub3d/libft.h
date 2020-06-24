@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/22 14:26:49 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/24 20:06:09 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void    ft_loop4(t_param *param, double Speed);
 void    ft_loop3(t_param *param, double Speed);
 void    ft_loop2(t_param *param, double Speed);
 int	ft_loop(t_param *param);
-int	ft_exit2(t_param *param);
+int	ft_exithook(t_param *param);
 int	ft_keypress(int key, t_param *param);
 int ft_keyrelease(int key, t_param *param);
 void	ft_sort_sprites(t_param *param);
@@ -248,5 +248,21 @@ void	ft_spritecasting(t_param *param);
 void	ft_raycasting(t_param *param);
 void	ft_set_tabs_tex(t_param *param);
 void	ft_set_local_endian(t_param *param);
+void	ft_set_tex_sprite_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_sprite_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_s_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_s_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_n_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_n_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_w_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_w_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_e_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_e_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_exit1(void);
+void	ft_exit2(t_param *param);
+void	ft_exit3(t_param *param);
+void	ft_exit4(t_param *param);
+void	ft_exit5(t_param *param, char *line);
+void	ft_exit6(t_param *param, char *line);
 
 #endif

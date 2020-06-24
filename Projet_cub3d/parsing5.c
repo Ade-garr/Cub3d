@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:04:47 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/22 12:52:13 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/06/24 20:06:03 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	ft_parsing_get_info(t_param *param, int fd)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
-			ft_exit(4);
+			ft_exit4(param);
 		if (ret == 0)
-			ft_exit(5);
+			ft_exit5(param, line);
 		if (line[0] != '\0')
 			ft_analyse_line(param, line, tab);
 		free(line);
