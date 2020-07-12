@@ -88,12 +88,12 @@ void	ft_set_sprite(t_param *param)
     ft_find_nb_sprite(param);	
 	param->tab_sprite = malloc(sizeof(t_sprite) * param->nb_sprite);
 	if (param->tab_sprite == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	ft_param_sprites(param);
     param->sprite_order = malloc(sizeof(int) * param->nb_sprite);
 	if (param->sprite_order == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	param->sprite_distance = malloc(sizeof(double) * param->nb_sprite);
 	if (param->sprite_order == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 }

@@ -22,11 +22,11 @@ void	ft_set_tex_n(t_param *param)
 
 	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_N, &param->tex_N->width, &param->tex_N->height);
 	if (ret == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
 	param->tex_N->tab = malloc(sizeof(unsigned int) * (param->tex_N->height * param->tex_N->width));
 	if (param->tex_N->tab == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	if (param->local_endian != endian)
 		ft_set_tex_n_tab_endian(param, adr, bpp, length);
 	else
@@ -77,11 +77,11 @@ void	ft_set_tex_s(t_param *param)
 
 	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_S, &param->tex_S->width, &param->tex_S->height);
 	if (ret == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
 	param->tex_S->tab = malloc(sizeof(unsigned int) * (param->tex_S->height * param->tex_S->width));
 	if (param->tex_S->tab == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	if (param->local_endian != endian)
 		ft_set_tex_s_tab_endian(param, adr, bpp, length);
 	else

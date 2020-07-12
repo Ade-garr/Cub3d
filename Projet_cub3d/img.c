@@ -40,7 +40,7 @@ void	ft_tab_in_img(t_param *param, int fd)
 
 	tab = malloc(sizeof(int) * (param->winY * param->winX));
 	if (tab == NULL)
-		ft_exit(1);
+		ft_exit15(param);
 	y = param->winY - 1;
 	i = 0;
 	while (i < (param->winX * param->winY))
@@ -51,26 +51,25 @@ void	ft_tab_in_img(t_param *param, int fd)
 		y--;
 	}
 	if (write(fd, tab, param->winX * param->winY * 4) == -1)
-		ft_exit(1);
+	{
+		free(tab);
+		ft_exit15(param);
+	}
 	free(tab);
 }
 
 void	ft_create_img(t_param *param)
 {
 	int	fd;
-	t_img	*ptr;
+	t_img	ptr;
 
-	ptr = malloc(sizeof(t_img) * 1);
-	if (ptr == NULL)
-		ft_exit(1);
-	ft_define_ptr(param, ptr);
+	ft_define_ptr(param, &ptr);
 	fd = open("cub3d_img.bmp", O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	if (fd == -1)
-		ft_exit(1);	
-	if (write(fd, "BM", 2) == -1 || write(fd, ptr, 52) == -1)
-		ft_exit(1);
+		ft_exit15(param);	
+	if (write(fd, "BM", 2) == -1 || write(fd, &ptr, 52) == -1)
+		ft_exit15(param);
 	ft_tab_in_img(param, fd);
 	close(fd);
-	free(ptr);
-	ft_exit(17);
+	ft_exit16(param);
 }

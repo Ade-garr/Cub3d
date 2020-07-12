@@ -55,11 +55,11 @@ void	ft_set_tex_sprite(t_param *param)
 
 	ret = mlx_xpm_file_to_image(param->mlx, param->fn_tex_sprite, &param->tex_sprite->width, &param->tex_sprite->height);
 	if (ret == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	adr = mlx_get_data_addr(ret, &bpp, &length, &endian);
 	param->tex_sprite->tab = malloc(sizeof(unsigned int) * (param->tex_sprite->height * param->tex_sprite->width));
 	if (param->tex_sprite->tab == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	if (param->local_endian != endian)
 		ft_set_tex_sprite_tab_endian(param, adr, bpp, length);
 	else

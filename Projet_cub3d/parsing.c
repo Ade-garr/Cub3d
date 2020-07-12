@@ -70,7 +70,7 @@ void	ft_check_NSWE(t_param *param)
 		i++;
 	}
 	if (compteur != 1)
-		ft_exit(16);
+		ft_exit12(param);
 }
 
 int		ft_checking(char **check_map, int x, int y, int max)
@@ -106,27 +106,22 @@ void	ft_check_map(t_param *param)
 {
 	char	**check_map;
 	int		i;
-	int		x;
-	int		y;
 	int		ret;
 
 	i = 0;
-	check_map = malloc(sizeof(char *) * (param->mapHeight + 1));
+	check_map = malloc(sizeof(char *) * (param->mapHeight));
 	if (check_map == NULL)
-		ft_exit(4);
+		ft_exit10(param);
 	while (i < param->mapHeight)
 	{
 		check_map[i] = ft_strdup(param->worldMap[i]);
 		if (check_map[i] == NULL)
-			ft_exit(4);
+			ft_exit13(param, check_map);
 		i++;
 	}
-	check_map[i] = NULL;
-	x = param->posX;
-	y = param->posY;
-	ret = ft_checking(check_map, x, y, param->mapHeight);
+	ret = ft_checking(check_map, param->posX, param->posY, param->mapHeight);
 	if (ret == -1)
-		ft_exit(16);
+		ft_exit14(param, check_map);
 	ft_free_map(check_map, param);
 }
 
@@ -137,12 +132,11 @@ void	ft_parsing(t_param *param, char *str)
 
 	fd = open(str, O_RDONLY);
     if (fd == -1)
-        ft_exit3(param);
+		ft_exit3(param);
 	ft_parsing_get_info(param, fd); 
-	line = ft_parsing_empty_line(fd); // A REPRENDRE ICI
+	line = ft_parsing_empty_line(param, fd);
 	ft_parsing_map(param, fd, line);
 	ft_check_NSWE(param);
 	ft_check_map(param);
-	if (close(fd) == -1)
-		ft_exit(4);
+	close(fd);
 }

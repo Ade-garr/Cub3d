@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:12 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/12 19:53:31 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,34 +321,40 @@ void	ft_raycasting(t_param *param)
 void	ft_set_tabs_tex(t_param *param)
 {
 	if ((param->tab_dist_wall = malloc(sizeof(double) * param->winX)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
 	if ((param->tex_N = malloc(sizeof(t_tex) * 1)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
+	param->tex_N->tab = NULL;
 	if ((param->tex_S = malloc(sizeof(t_tex) * 1)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
+	param->tex_S->tab = NULL;
 	if ((param->tex_W = malloc(sizeof(t_tex) * 1)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
+	param->tex_W->tab = NULL;
 	if ((param->tex_E = malloc(sizeof(t_tex) * 1)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
+	param->tex_E->tab = NULL;
 	if ((param->tex_sprite = malloc(sizeof(t_tex) * 1)) == NULL)
-		ft_exit(4);
+		ft_exit2(param);
+	param->tex_sprite->tab = NULL;
+	ft_set_local_endian(param);
 	ft_set_tex_n(param);
 	ft_set_tex_s(param);
 	ft_set_tex_w(param);
 	ft_set_tex_e(param);
 	ft_set_tex_sprite(param);
-	ft_set_local_endian(param);
 }
 
 int main(int argc, char **argv)
 {
 	t_param	*param;
 
-	if (argc == 2 || (argc == 3 && ft_check_arg(argv[2]) == 1))
+	if ((argc == 2 && ft_check_filename(argv[1]) == 1) || (argc == 3 && ft_check_arg(argv[2]) == 1 && ft_check_filename(argv[1]) == 1))
 	{
 		param = malloc(sizeof(t_param) * 1);
 		if (param == NULL)
 			ft_exit1();
+		ft_init(param);
 		param->mlx = mlx_init();
 		if (param->mlx == NULL)
 			ft_exit2(param);
@@ -357,13 +363,13 @@ int main(int argc, char **argv)
 		ft_set_sprite(param);
 		param->img = mlx_new_image(param->mlx, param->winX, param->winY);
 		if (param->img == NULL)
-			ft_exit(4);
+			ft_exit2(param);
 		param->imgadr = mlx_get_data_addr(param->img, &param->imgbpp, &param->imglenght, &param->endian);
 		if (argc == 2)
 		{
 			param->win = mlx_new_window(param->mlx, param->winX, param->winY, "Cub3d");
 			if (param->win == NULL)
-				ft_exit(4);
+				ft_exit2(param);
 			mlx_hook(param->win, 2, 1L<<0, ft_keypress, param);
 			mlx_hook(param->win, 3, 1L<<1, ft_keyrelease, param);
 			mlx_hook(param->win, 17, 1L<<17, ft_exithook, param);
@@ -377,6 +383,6 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-		ft_exit(2);
+		ft_exit17();
 	return (1);
 }

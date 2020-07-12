@@ -54,7 +54,7 @@ void	ft_analyse_line_info(t_param *param, char **spltline, int index, char *line
 	if (index == 0)
 		ft_analyse_resolution_info(param, spltline, index, line);
 	if (index > 0 && index <= 5)
-		ft_analyse_texture_info(param, spltline, index), line;
+		ft_analyse_texture_info(param, spltline, index, line);
 	if (index > 5)
 	{
 		ft_analyse_color_info(param, spltline, index, line);
@@ -82,7 +82,7 @@ void	ft_analyse_line(t_param *param, char *line, int	tab[8])
 		ft_exit9(param, spltline, line);
 }
 
-void	ft_check_line(char *line)
+void	ft_check_line(t_param *param, char *line)
 {
 	int	i;
 
@@ -91,7 +91,7 @@ void	ft_check_line(char *line)
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != '2' && line[i] != 'N' 
 		&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
-			ft_exit(16);
+			ft_exit4(param, line);
 		i++;
 	}
 }

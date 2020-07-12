@@ -96,7 +96,7 @@ void	ft_check_valid_b(char **spltline, int index, t_param *param, char *line)
 	i++;
 	while (spltline[1][i] != ',')
 		i++;
-	i++
+	i++;
 	while (spltline[1][i] >= 48 && spltline[1][i] <= 57)
 	{
 		if (B == -1)

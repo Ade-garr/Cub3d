@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:09 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/12 19:44:36 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,8 @@ typedef struct	s_param
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
-	int			color; // A VOIR SI NECESSAIRE A LA FIN
-	void		*img; // POUR OPTI
-	char		*imgadr; // POUR OPTI
+	void		*img;
+	char		*imgadr;
 	int			imgbpp;
 	int			imglenght;
 	int			endian;
@@ -190,79 +189,112 @@ int		ft_give_line(char **line, char *left);
 int		get_next_line(int fd, char **line);
 
 //CUB3D
-void	ft_param_orient(t_param *param, char c);
-void	ft_check_NSWE(t_param *param);
-int		ft_checking(char **check_map, int x, int y, int max);
-void	ft_check_map(t_param *param);
-void	ft_parsing(t_param *param, char *str);
-int	ft_check_tab(int tab[8]);
-int	ft_analyse_line_index2(char **spltline, int tab[8], int index);
-int	ft_analyse_line_index(char **spltline, int tab[8]);
-int	ft_find_long_spltline(char **spltline);
-int	ft_check_nb(char *str1, char *str2);
-void	ft_analyse_resolution_info(t_param *param, char **spltline, int index);
-void	ft_param_texture_path(t_param *param, char *str, int index);
-void	ft_analyse_texture_info(t_param *param, char **spltline, int index);
-int	ft_check_valid_b(char *str, int index, t_param *param, int i);
-int	ft_check_valid_g(char *str, int index, t_param *param, int i);
-int	ft_check_valid_r(char *str, int index, t_param *param, int i);
-void	ft_analyse_color_info(t_param *param, char **spltline, int index);
-void	ft_analyse_line_info(t_param *param, char **spltline, int index);
-void	ft_analyse_line(t_param *param, char *line, int	tab[8]);
-void	ft_check_line(char *line);
-char	*ft_parsing_empty_line(int fd);
-void	ft_merge_lines(t_param *param, char *line, int height);
-void	ft_parsing_map(t_param *param, int fd, char *line);
-void	ft_parsing_get_info(t_param *param, int fd);
+
 int	ft_checkcollision(t_param *param, double Speed, double rectX, double rectY);
 int	ft_bodycollision3(t_param *param, double Speed);
 int	ft_bodycollision2(t_param *param, double Speed);
 int	ft_bodycollision(t_param *param, double Speed);
-void	ft_define_ptr(t_param *param, t_img *ptr);
-void	ft_tab_in_img(t_param *param, int fd);
-void	ft_create_img(t_param *param);
-double	ft_max(double a, double b);
-double	ft_min(double a, double b);
-int	ft_check_arg(char *str);
-void    ft_exit_bis(int nb);
-void	ft_exit(int nb);
-void    ft_free_map(char **map, t_param *param);
+
+void	ft_spritecasting(t_param *param);
+void	ft_raycasting(t_param *param);
+void	ft_set_tabs_tex(t_param *param);
+
 void    ft_loop5(t_param *param, double rotSpeed);
 void    ft_loop4(t_param *param, double Speed);
 void    ft_loop3(t_param *param, double Speed);
 void    ft_loop2(t_param *param, double Speed);
 int	ft_loop(t_param *param);
+
 int	ft_exithook(t_param *param);
 int	ft_keypress(int key, t_param *param);
 int ft_keyrelease(int key, t_param *param);
+
+void	ft_define_ptr(t_param *param, t_img *ptr);
+void	ft_tab_in_img(t_param *param, int fd);
+void	ft_create_img(t_param *param);
+
+void	ft_param_orient(t_param *param, char c);
+void	ft_check_NSWE(t_param *param);
+int		ft_checking(char **check_map, int x, int y, int max);
+void	ft_check_map(t_param *param);
+void	ft_parsing(t_param *param, char *str);
+
+int	ft_check_tab(int tab[8]);
+int	ft_analyse_line_index2(char **spltline, int tab[8], int index);
+int	ft_analyse_line_index(char **spltline, int tab[8]);
+int	ft_find_long_spltline(char **spltline);
+int	ft_check_nb(char *str1, char *str2);
+
+void	ft_analyse_resolution_info(t_param *param, char **spltline, int index, char *line);
+void	ft_param_texture_path(t_param *param, char **spltline, int index, char *line);
+void	ft_analyse_texture_info(t_param *param, char **spltline, int index, char *line);
+void	ft_check_valid_b(char **spltline, int index, t_param *param, char *line);
+void	ft_check_valid_g(char **spltline, int index, t_param *param, char *line);
+
+void	ft_check_valid_r(char **spltline, int index, t_param *param, char *line);
+void	ft_analyse_color_info(t_param *param, char **spltline, int index, char *line);
+void	ft_analyse_line_info(t_param *param, char **spltline, int index, char *line);
+void	ft_analyse_line(t_param *param, char *line, int	tab[8]);
+void	ft_check_line(t_param *param, char *line);
+
+char	*ft_parsing_empty_line(t_param *param, int fd);
+void	ft_merge_lines(t_param *param, char *line, int height);
+void	ft_parsing_map(t_param *param, int fd, char *line);
+void	ft_parsing_get_info(t_param *param, int fd);
+
 void	ft_sort_sprites(t_param *param);
 void    ft_find_nb_sprite(t_param *param);
 void    ft_param_sprites(t_param *param);
 void	ft_set_sprite(t_param *param);
-void	ft_set_tex_sprite(t_param *param);
-void	ft_set_tex_n(t_param *param);
-void	ft_set_tex_s(t_param *param);
-void	ft_set_tex_w(t_param *param);
-void	ft_set_tex_e(t_param *param);
-void	ft_spritecasting(t_param *param);
-void	ft_raycasting(t_param *param);
-void	ft_set_tabs_tex(t_param *param);
-void	ft_set_local_endian(t_param *param);
+
 void	ft_set_tex_sprite_tab_no_endian(t_param *param, char *adr, int bpp, int length);
 void	ft_set_tex_sprite_tab_endian(t_param *param, char *adr, int bpp, int length);
-void	ft_set_tex_s_tab_no_endian(t_param *param, char *adr, int bpp, int length);
-void	ft_set_tex_s_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_sprite(t_param *param);
 void	ft_set_tex_n_tab_no_endian(t_param *param, char *adr, int bpp, int length);
 void	ft_set_tex_n_tab_endian(t_param *param, char *adr, int bpp, int length);
-void	ft_set_tex_w_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+
 void	ft_set_tex_w_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_w(t_param *param);
 void	ft_set_tex_e_tab_no_endian(t_param *param, char *adr, int bpp, int length);
 void	ft_set_tex_e_tab_endian(t_param *param, char *adr, int bpp, int length);
-void	ft_exit1(void);
-void	ft_exit2(t_param *param);
-void	ft_exit3(t_param *param);
-void	ft_exit4(t_param *param);
-void	ft_exit5(t_param *param, char *line);
+void	ft_set_tex_e(t_param *param);
+
+void	ft_set_tex_n(t_param *param);
+void	ft_set_tex_s_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_s_tab_endian(t_param *param, char *adr, int bpp, int length);
+void	ft_set_tex_s(t_param *param);
+void	ft_set_tex_w_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+
+double	ft_max(double a, double b);
+double	ft_min(double a, double b);
+int	ft_check_arg(char *str);
+void	ft_exit17(void);
+void	ft_exit16(t_param *param);
+
+void	ft_exit15(t_param *param);
+void	ft_exit14(t_param *param, char **check_map);
+void	ft_exit13(t_param *param, char **check_map);
+void	ft_exit12(t_param *param);
+void	ft_exit11(t_param *param, char **map, char *line);
+
+void	ft_exit10(t_param *param);
+void	ft_exit9(t_param *param, char **spltline, char *line);
+void	ft_exit8(t_param *param, char **spltline, char *line);
+void	ft_exit7(t_param *param, char **spltline, char *line, int nb);
 void	ft_exit6(t_param *param, char *line);
+
+void	ft_exit5(t_param *param, char *line);
+void	ft_exit4(t_param *param, char *line);
+void	ft_exit3(t_param *param);
+void	ft_exit2(t_param *param);
+void	ft_exit1(void);
+
+void    ft_free_map(char **map, t_param *param);
+void    ft_free_param2(t_param *param);
+void    ft_free_param(t_param *param);
+void    ft_set_local_endian(t_param *param);
+void    ft_init(t_param *param);
+
+int ft_check_filename(char *str);
 
 #endif

@@ -15,6 +15,7 @@
 int	ft_exithook(t_param *param)
 {
     (void)param;
+	ft_free_param(param);
 	write(1, "Program successfully exited\n", 28);
 	exit(1);
 	return (1);
@@ -23,7 +24,7 @@ int	ft_exithook(t_param *param)
 int	ft_keypress(int key, t_param *param)
 {
 	//LINUX
-	/*if (key == 122)
+	if (key == 122)
 		param->tab[0] = 1;
 	if (key == 115)
 		param->tab[1] = 1;
@@ -38,10 +39,10 @@ int	ft_keypress(int key, t_param *param)
 	if (key == 65505)
 		param->tab[6] = 1;
 	if (key == 65307)
-		exit(1);*/
+		ft_exithook(param);
 
 	//MACOS
-	if (key == 13)
+	/*if (key == 13)
 		param->tab[0] = 1;
 	if (key == 1)
 		param->tab[1] = 1;
@@ -56,14 +57,14 @@ int	ft_keypress(int key, t_param *param)
 	if (key == 257)
 		param->tab[6] = 1;
 	if (key == 53)
-		ft_exithook(param);
+		ft_exithook(param);*/
 	return (1);
 }
 
 int ft_keyrelease(int key, t_param *param)
 {
 	//LINUX
-	/*if (key == 122)
+	if (key == 122)
 		param->tab[0] = 0;
 	if (key == 115)
 		param->tab[1] = 0;
@@ -76,10 +77,10 @@ int ft_keyrelease(int key, t_param *param)
 	if (key == 65361)
 		param->tab[5] = 0;
 	if (key == 65505)
-		param->tab[6] = 0;*/
+		param->tab[6] = 0;
 	
 	//MACOS
-	if (key == 13)
+	/*if (key == 13)
 		param->tab[0] = 0;
 	if (key == 1)
 		param->tab[1] = 0;
@@ -92,6 +93,6 @@ int ft_keyrelease(int key, t_param *param)
 	if (key == 123)
 		param->tab[5] = 0;
 	if (key == 257)
-		param->tab[6] = 0;
+		param->tab[6] = 0;*/
 	return (1);
 }

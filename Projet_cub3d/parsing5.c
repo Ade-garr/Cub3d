@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	*ft_parsing_empty_line(int fd)
+char	*ft_parsing_empty_line(t_param *param, int fd)
 {
 	char	*line;
 	int		ret;
@@ -24,8 +24,8 @@ char	*ft_parsing_empty_line(int fd)
 		ret = get_next_line(fd, &line);	
 	}
 	if (ret == -1 || ret == 0)
-		ft_exit(4);
-	ft_check_line(line);
+		ft_exit6(param, line);
+	ft_check_line(param, line);
 	return (line);
 }
 
@@ -38,7 +38,7 @@ void	ft_merge_lines(t_param *param, char *line, int height)
 	tmp_worldMap = param->worldMap;
 	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
 	if (param->worldMap == NULL)
-		ft_exit(4);
+		ft_exit11(param, tmp_worldMap, line);
 	while (i < height - 1)
 	{
 		param->worldMap[i] = tmp_worldMap[i];
@@ -56,20 +56,20 @@ void	ft_parsing_map(t_param *param, int fd, char *line)
 	param->mapHeight = 1;
 	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
 	if (param->worldMap == NULL)
-		ft_exit(4);
+		ft_exit6(param, line);
 	param->worldMap[0] = line;
 	while (ret == 1)
 	{	
 		ret = get_next_line(fd, &line);
 		if (ret >= 0)
 		{
-			ft_check_line(line);
+			ft_check_line(param, line);
 			param->mapHeight++;
 			ft_merge_lines(param, line, param->mapHeight);
 		}
 	}
 	if (ret == -1)
-		ft_exit(4);
+		ft_exit10(param);
 }
 
 void	ft_parsing_get_info(t_param *param, int fd)
@@ -82,7 +82,7 @@ void	ft_parsing_get_info(t_param *param, int fd)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
-			ft_exit4(param);
+			ft_exit2(param);
 		if (ret == 0)
 			ft_exit5(param, line);
 		if (line[0] != '\0')
