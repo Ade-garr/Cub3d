@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 15:30:02 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 14:27:21 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 17:02:32 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static	int		ft_nb(char const *s, char c)
 	return (a);
 }
 
-char		**ft_free(char ***s1)
+char			**ft_free(char ***s1)
 {
 	size_t	i;
 

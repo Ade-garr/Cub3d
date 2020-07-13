@@ -6,98 +6,100 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 13:09:22 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 14:46:38 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 16:57:04 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_checkcollision(t_param *param, double Speed, double rectX, double rectY)
+int	ft_checkcollision(t_param *param, double speed, double rectx, double recty)
 {
-	double	deltaX;
-	double	deltaY;
+	double	deltax;
+	double	deltay;
 	double	radius;
-	
+
 	radius = 0.1;
-	deltaX = param->posX + param->dirX * Speed - ft_max(rectX, ft_min(param->posX + param->dirX * Speed, rectX + 1));
-	deltaY = param->posY + param->dirY * Speed - ft_max(rectY, ft_min(param->posY + param->dirY * Speed, rectY + 1));
-	if (deltaX * deltaX + deltaY * deltaY < radius * radius)
+	deltax = param->posx + param->dirx * speed -
+	ft_max(rectx, ft_min(param->posx + param->dirx * speed, rectx + 1));
+	deltay = param->posy + param->diry * speed -
+	ft_max(recty, ft_min(param->posy + param->diry * speed, recty + 1));
+	if (deltax * deltax + deltay * deltay < radius * radius)
 		return (1);
 	return (0);
 }
 
-int	ft_bodycollision3(t_param *param, double Speed)
+int	ft_bodycollision3(t_param *param, double speed)
 {
-    double	rectX;
-	double	rectY;
-    
-    rectY = floor(param->posY) + 1;
-    rectX = floor(param->posX);
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	double	rectx;
+	double	recty;
+
+	recty = floor(param->posy) + 1;
+	rectx = floor(param->posx);
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-	rectX = floor(param->posX) + 1;
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) + 1;
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	return (0);
 }
 
-int	ft_bodycollision2(t_param *param, double Speed)
+int	ft_bodycollision2(t_param *param, double speed)
 {
-    double	rectX;
-	double	rectY;
+	double	rectx;
+	double	recty;
 
-    rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY);
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) - 1;
+	recty = floor(param->posy);
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-	rectX = floor(param->posX) + 1;
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) + 1;
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-	rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY) + 1;
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) - 1;
+	recty = floor(param->posy) + 1;
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-    return(ft_bodycollision3(param, Speed));
+	return (ft_bodycollision3(param, speed));
 }
 
-int	ft_bodycollision(t_param *param, double Speed)
-{	
-	double	rectX;
-	double	rectY;
+int	ft_bodycollision(t_param *param, double speed)
+{
+	double	rectx;
+	double	recty;
 
-	rectX = floor(param->posX) - 1;
-	rectY = floor(param->posY) - 1;
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) - 1;
+	recty = floor(param->posy) - 1;
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-	rectX = floor(param->posX);
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx);
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-	rectX = floor(param->posX) + 1;
-	if (param->worldMap[(int)rectY][(int)rectX] == '1')
+	rectx = floor(param->posx) + 1;
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
-		if (ft_checkcollision(param, Speed, rectX, rectY) == 1)
+		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
-    return(ft_bodycollision2(param, Speed));
+	return (ft_bodycollision2(param, speed));
 }

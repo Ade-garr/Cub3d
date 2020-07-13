@@ -6,25 +6,25 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:25:09 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/17 15:31:40 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 17:04:45 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_loop5(t_param *param, double rotSpeed)
+void    ft_loop5(t_param *param, double rotspeed)
 {
-    double	oldPlaneY;
-    double	oldDirY;
+    double	oldplaney;
+    double	olddiry;
 
     if (param->tab[4] == 1)
 	{
-		oldDirY = param->dirY;
-		param->dirY = param->dirY * cos(-rotSpeed) - param->dirX * sin(-rotSpeed);
-		param->dirX = oldDirY * sin(-rotSpeed) + param->dirX * cos(-rotSpeed);
-		oldPlaneY = param->planeY;
-		param->planeY = param->planeY * cos(-rotSpeed) - param->planeX * sin(-rotSpeed);
-		param->planeX = oldPlaneY * sin(-rotSpeed) + param->planeX * cos(-rotSpeed);
+		oldsiry = param->diry;
+		param->diry = param->diry * cos(-rotspeed) - param->dirx * sin(-rotspeed);
+		param->dirx = olddiry * sin(-rotspeed) + param->dirx * cos(-rotspeed);
+		oldplaney = param->planey;
+		param->planey = param->planey * cos(-rotspeed) - param->planex * sin(-rotspeed);
+		param->planex = oldplaney * sin(-rotspeed) + param->planex * cos(-rotspeed);
 	}
 	if (param->tab[5] == 1)
 	{

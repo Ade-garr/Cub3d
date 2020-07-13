@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/12 19:44:36 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 15:34:03 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,36 @@ typedef struct		s_tex
 	unsigned int	*tab;
 }			t_tex;
 
-typedef struct	s_param
+typedef	struct		s_spritecast
 {
-	void		*mlx; // A GARDER
-	void		*win;
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
+	int	i;
+	double	spriteX;
+	double	spriteY;
+	double	invDet;
+	double	transformX;
+	double	transformY;
+	int	sprite_screenX;
+	int	sprite_height;
+	int	sprite_width;
+	int	draw_startY;
+	int	draw_endY;
+	int	draw_startX;
+	int	draw_endX;
+	int	x;
+	int	y;
+	int	texX;
+	int	texY;
+	char	*adr;
+	int	d;
+}					t_spritecast;
+
+typedef	struct	s_raycast
+{
 	double		cameraX;
 	double		rayDirX;
 	double		rayDirY;
 	int			mapX;
 	int			mapY;
-	double		winX;
-	double		winY;
 	double		sideDistX;
 	double		sideDistY;
 	double		deltaDistX;
@@ -91,6 +104,28 @@ typedef struct	s_param
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
+	int			x;
+	char	*adr;
+	double	wallX;
+	int		texX;
+	double	step;
+	double	texPos;
+	int		texY;
+	int		xfloorcell;
+}				t_raycast;
+
+typedef struct	s_param
+{
+	void		*mlx; // A GARDER
+	void		*win;
+	double		posX;
+	double		posY;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
+	double		winX;
+	double		winY;
 	void		*img;
 	char		*imgadr;
 	int			imgbpp;
@@ -195,9 +230,8 @@ int	ft_bodycollision3(t_param *param, double Speed);
 int	ft_bodycollision2(t_param *param, double Speed);
 int	ft_bodycollision(t_param *param, double Speed);
 
-void	ft_spritecasting(t_param *param);
-void	ft_raycasting(t_param *param);
 void	ft_set_tabs_tex(t_param *param);
+void	ft_launch_cub3d(t_param *param, int argc);
 
 void    ft_loop5(t_param *param, double rotSpeed);
 void    ft_loop4(t_param *param, double Speed);
@@ -242,6 +276,22 @@ void	ft_merge_lines(t_param *param, char *line, int height);
 void	ft_parsing_map(t_param *param, int fd, char *line);
 void	ft_parsing_get_info(t_param *param, int fd);
 
+void	ft_raycasting5(t_param *param, t_raycast *raycast);
+void	ft_raycasting4(t_param *param, t_raycast *raycast);
+void	ft_raycasting3(t_param *param, t_raycast *raycast);
+void	ft_raycasting2(t_param *param, t_raycast *raycast);
+void	ft_raycasting(t_param *param);
+
+void	ft_raycasting_west2(t_param *param, t_raycast *raycast);
+void	ft_raycasting_west(t_param *param, t_raycast *raycast);
+void	ft_raycasting_east2(t_param *param, t_raycast *raycast);
+void	ft_raycasting_east(t_param *param, t_raycast *raycast);
+
+void	ft_raycasting_south2(t_param *param, t_raycast *raycast);
+void	ft_raycasting_south(t_param *param, t_raycast *raycast);
+void	ft_raycasting_north2(t_param *param, t_raycast *raycast);
+void	ft_raycasting_north(t_param *param, t_raycast *raycast);
+
 void	ft_sort_sprites(t_param *param);
 void    ft_find_nb_sprite(t_param *param);
 void    ft_param_sprites(t_param *param);
@@ -264,6 +314,10 @@ void	ft_set_tex_s_tab_no_endian(t_param *param, char *adr, int bpp, int length);
 void	ft_set_tex_s_tab_endian(t_param *param, char *adr, int bpp, int length);
 void	ft_set_tex_s(t_param *param);
 void	ft_set_tex_w_tab_no_endian(t_param *param, char *adr, int bpp, int length);
+
+void	ft_spritecasting3(t_param *param, t_spritecast *spritecast);
+void	ft_spritecasting2(t_param *param, t_spritecast *spritecast);
+void	ft_spritecasting(t_param *param);
 
 double	ft_max(double a, double b);
 double	ft_min(double a, double b);
