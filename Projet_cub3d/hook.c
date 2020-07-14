@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:25:09 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 21:33:12 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 14:56:21 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	ft_loop4(t_param *param, double speed)
 	{
 		olddirx = param->dirx;
 		olddiry = param->diry;
-		param->diry = param->diry * cos(-m_pi / 2) -
-		param->dirx * sin(-m_pi / 2);
-		param->dirx = olddiry * sin(-m_pi / 2) + param->dirx * cos(-m_pi / 2);
+		param->diry = param->diry * cos(-M_PI / 2) -
+		param->dirx * sin(-M_PI / 2);
+		param->dirx = olddiry * sin(-M_PI / 2) + param->dirx * cos(-M_PI / 2);
 		if (param->worldmap[(int)(param->posy + param->diry * speed)]
 		[(int)(param->posx + param->dirx * speed)] != '1' &&
 		ft_bodycollision(param, speed) == 0)
@@ -74,8 +74,8 @@ void	ft_loop3(t_param *param, double speed)
 	{
 		olddirx = param->dirx;
 		olddiry = param->diry;
-		param->diry = param->diry * cos(m_pi / 2) - param->dirx * sin(m_pi / 2);
-		param->dirx = olddiry * sin(m_pi / 2) + param->dirx * cos(m_pi / 2);
+		param->diry = param->diry * cos(M_PI / 2) - param->dirx * sin(M_PI / 2);
+		param->dirx = olddiry * sin(M_PI / 2) + param->dirx * cos(M_PI / 2);
 		if (param->worldmap[(int)(param->posy + param->diry * speed)]
 		[(int)(param->posx + param->dirx * speed)] != '1' &&
 		ft_bodycollision(param, speed) == 0)

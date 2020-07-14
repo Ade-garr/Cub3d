@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 20:58:18 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 12:29:22 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 14:37:12 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ void	ft_free_param2(t_param *param)
 	free(param->sprite_distance);
 	if (param->worldmap != NULL)
 		ft_free_map(param->worldmap, param);
+	if (param->img != NULL)
+		mlx_destroy_image(param->mlx, param->img);
+	if (param->win != NULL)
+		mlx_destroy_window(param->mlx, param->win);
+	if (param->mlx != NULL)
+		free(param->mlx);
+	free(param);
 }
 
 void	ft_free_param(t_param *param)
@@ -75,12 +82,9 @@ void	ft_init(t_param *param)
 {
 	int i;
 
-	i = 0;
-	while (i <= 6)
-	{
+	i = -1;
+	while (++i <= 6)
 		param->tab[i] = 0;
-		i++;
-	}
 	param->fn_tex_n = NULL;
 	param->fn_tex_s = NULL;
 	param->fn_tex_w = NULL;
@@ -96,4 +100,7 @@ void	ft_init(t_param *param)
 	param->sprite_order = NULL;
 	param->sprite_distance = NULL;
 	param->worldmap = NULL;
+	param->mlx = NULL;
+	param->win = NULL;
+	param->img = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 21:32:01 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 14:52:38 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define BUFFER_SIZE	10
 # endif
 
-# ifndef m_pi
-#  define m_pi	3.14159265358979323846264338
+# ifndef M_PI
+#  define M_PI	3.14159265358979323846264338
 # endif
 
 typedef struct		s_img
@@ -353,6 +353,12 @@ int					ft_check_arg(char *str);
 void				ft_exit17(void);
 void				ft_exit16(t_param *param);
 
+void				ft_free_map(char **map, t_param *param);
+void				ft_free_param2(t_param *param);
+void				ft_free_param(t_param *param);
+void				ft_set_local_endian(t_param *param);
+void				ft_init(t_param *param);
+
 void				ft_exit15(t_param *param);
 void				ft_exit14(t_param *param, char **check_map);
 void				ft_exit13(t_param *param, char **check_map);
@@ -371,12 +377,6 @@ void				ft_exit4(t_param *param, char *line);
 void				ft_exit3(t_param *param);
 void				ft_exit2(t_param *param);
 void				ft_exit1(void);
-
-void				ft_free_map(char **map, t_param *param);
-void				ft_free_param2(t_param *param);
-void				ft_free_param(t_param *param);
-void				ft_set_local_endian(t_param *param);
-void				ft_init(t_param *param);
 
 int					ft_check_filename(char *str);
 void				ft_param_orient2(t_param *param, char c);
