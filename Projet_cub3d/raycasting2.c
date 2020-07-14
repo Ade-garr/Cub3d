@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 13:45:03 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 13:49:39 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 20:07:59 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,45 @@
 
 void	ft_raycasting_west2(t_param *param, t_raycast *raycast)
 {
-	while (raycast->drawStart < raycast->drawEnd)
+	while (raycast->drawstart < raycast->drawend)
 	{
-		raycast->texY = raycast->texPos;
-		if (raycast->texY >= param->tex_W->height)
-			raycast->texY = param->tex_W->height - 1;
-		raycast->texPos = raycast->texPos + raycast->step;
-		raycast->adr = param->imgadr + (raycast->drawStart * param->imglenght + raycast->x * (param->imgbpp / 8));
-		*(unsigned int *)raycast->adr = param->tex_W->tab[param->tex_W->width * raycast->texY + raycast->texX];
-		raycast->drawStart++;
+		raycast->texy = raycast->texpos;
+		if (raycast->texy >= param->tex_w->height)
+			raycast->texy = param->tex_w->height - 1;
+		raycast->texpos = raycast->texpos + raycast->step;
+		raycast->adr = param->imgadr + (raycast->drawstart *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
+		*(unsigned int *)raycast->adr = param->tex_w->tab[param->tex_w->width *
+		raycast->texy + raycast->texx];
+		raycast->drawstart++;
 	}
-	raycast->xfloorcell = raycast->drawEnd;
-	while (raycast->xfloorcell < param->winY)
+	raycast->xfloorcell = raycast->drawend;
+	while (raycast->xfloorcell < param->winy)
 	{
-		raycast->adr = param->imgadr + (raycast->xfloorcell * param->imglenght + raycast->x * (param->imgbpp / 8));
+		raycast->adr = param->imgadr + (raycast->xfloorcell *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
 		*(unsigned int *)raycast->adr = param->floorcolor;
 		raycast->xfloorcell++;
 	}
-	param->tab_dist_wall[raycast->x] = raycast->wallDist;
+	param->tab_dist_wall[raycast->x] = raycast->walldist;
 	raycast->x++;
 }
 
 void	ft_raycasting_west(t_param *param, t_raycast *raycast)
 {
-	raycast->texX = raycast->wallX * param->tex_W->width;
-	if (raycast->side == 0 && raycast->rayDirX > 0)
-		raycast->texX = param->tex_W->width - raycast->texX - 1;
-	if (raycast->side == 1 && raycast->rayDirY < 0)
-		raycast->texX = param->tex_W->width - raycast->texX - 1;
-	raycast->step = 1.0 * param->tex_W->height / raycast->lineHeight;
-	raycast->texPos = (raycast->drawStart - param->winY / 2 + raycast->lineHeight / 2) * raycast->step;
+	raycast->texx = raycast->wallx * param->tex_w->width;
+	if (raycast->side == 0 && raycast->raydirx > 0)
+		raycast->texx = param->tex_w->width - raycast->texx - 1;
+	if (raycast->side == 1 && raycast->raydiry < 0)
+		raycast->texx = param->tex_w->width - raycast->texx - 1;
+	raycast->step = 1.0 * param->tex_w->height / raycast->lineheight;
+	raycast->texpos = (raycast->drawstart - param->winy / 2 +
+	raycast->lineheight / 2) * raycast->step;
 	raycast->xfloorcell = 0;
-	while (raycast->xfloorcell < raycast->drawStart)
+	while (raycast->xfloorcell < raycast->drawstart)
 	{
-		raycast->adr = param->imgadr + (raycast->xfloorcell * param->imglenght + raycast->x * (param->imgbpp / 8));
+		raycast->adr = param->imgadr + (raycast->xfloorcell *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
 		*(unsigned int *)raycast->adr = param->cellcolor;
 		raycast->xfloorcell++;
 	}
@@ -56,40 +61,45 @@ void	ft_raycasting_west(t_param *param, t_raycast *raycast)
 
 void	ft_raycasting_east2(t_param *param, t_raycast *raycast)
 {
-	while (raycast->drawStart < raycast->drawEnd)
+	while (raycast->drawstart < raycast->drawend)
 	{
-		raycast->texY = raycast->texPos;
-		if (raycast->texY >= param->tex_E->height)
-			raycast->texY = param->tex_E->height - 1;
-		raycast->texPos = raycast->texPos + raycast->step;
-		raycast->adr = param->imgadr + (raycast->drawStart * param->imglenght + raycast->x * (param->imgbpp / 8));
-		*(unsigned int *)raycast->adr = param->tex_E->tab[param->tex_E->width * raycast->texY + raycast->texX];
-		raycast->drawStart++;
+		raycast->texy = raycast->texpos;
+		if (raycast->texy >= param->tex_e->height)
+			raycast->texy = param->tex_e->height - 1;
+		raycast->texpos = raycast->texpos + raycast->step;
+		raycast->adr = param->imgadr + (raycast->drawstart *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
+		*(unsigned int *)raycast->adr = param->tex_e->tab[param->tex_e->width *
+		raycast->texy + raycast->texx];
+		raycast->drawstart++;
 	}
-	raycast->xfloorcell = raycast->drawEnd;
-	while (raycast->xfloorcell < param->winY)
+	raycast->xfloorcell = raycast->drawend;
+	while (raycast->xfloorcell < param->winy)
 	{
-		raycast->adr = param->imgadr + (raycast->xfloorcell * param->imglenght + raycast->x * (param->imgbpp / 8));
+		raycast->adr = param->imgadr + (raycast->xfloorcell *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
 		*(unsigned int *)raycast->adr = param->floorcolor;
 		raycast->xfloorcell++;
 	}
-	param->tab_dist_wall[raycast->x] = raycast->wallDist;
+	param->tab_dist_wall[raycast->x] = raycast->walldist;
 	raycast->x++;
 }
 
 void	ft_raycasting_east(t_param *param, t_raycast *raycast)
 {
-	raycast->texX = raycast->wallX * param->tex_E->width;
-	if (raycast->side == 0 && raycast->rayDirX > 0)
-		raycast->texX = param->tex_E->width - raycast->texX - 1;
-	if (raycast->side == 1 && raycast->rayDirY < 0)
-		raycast->texX = param->tex_E->width - raycast->texX - 1;
-	raycast->step = 1.0 * param->tex_E->height / raycast->lineHeight;
-	raycast->texPos = (raycast->drawStart - param->winY / 2 + raycast->lineHeight / 2) * raycast->step;
+	raycast->texx = raycast->wallx * param->tex_e->width;
+	if (raycast->side == 0 && raycast->raydirx > 0)
+		raycast->texx = param->tex_e->width - raycast->texx - 1;
+	if (raycast->side == 1 && raycast->raydiry < 0)
+		raycast->texx = param->tex_e->width - raycast->texx - 1;
+	raycast->step = 1.0 * param->tex_e->height / raycast->lineheight;
+	raycast->texpos = (raycast->drawstart - param->winy / 2 +
+	raycast->lineheight / 2) * raycast->step;
 	raycast->xfloorcell = 0;
-	while (raycast->xfloorcell < raycast->drawStart)
+	while (raycast->xfloorcell < raycast->drawstart)
 	{
-		raycast->adr = param->imgadr + (raycast->xfloorcell * param->imglenght + raycast->x * (param->imgbpp / 8));
+		raycast->adr = param->imgadr + (raycast->xfloorcell *
+		param->imglenght + raycast->x * (param->imgbpp / 8));
 		*(unsigned int *)raycast->adr = param->cellcolor;
 		raycast->xfloorcell++;
 	}

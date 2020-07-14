@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 18:44:32 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/12 18:44:57 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 12:45:44 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	ft_exit13(t_param *param, char **check_map)
 	int	i;
 
 	i = 0;
-	write(1, "Error : impossible to read cub file or to set up the game, program stopped\n", 75);
+	write(1, "Error : impossible to read cub file or to set up the game", 57);
+	write(1, ", program stopped\n", 18);
 	while (check_map[i] != NULL)
 	{
 		free(check_map[i]);
@@ -53,7 +54,8 @@ void	ft_exit12(t_param *param)
 
 void	ft_exit11(t_param *param, char **map, char *line)
 {
-	write(1, "Error : impossible to read cub file or to set up the game, program stopped\n", 75);
+	write(1, "Error : impossible to read cub file or to set up the game", 57);
+	write(1, ", program stopped\n", 18);
 	free(line);
 	ft_free_map(map, param);
 	ft_free_param(param);

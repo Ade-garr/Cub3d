@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:04:47 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:03 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 19:49:07 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_parsing_empty_line(t_param *param, int fd)
 	while (ret == 1 && line[0] == '\0')
 	{
 		free(line);
-		ret = get_next_line(fd, &line);	
+		ret = get_next_line(fd, &line);
 	}
 	if (ret == -1 || ret == 0)
 		ft_exit6(param, line);
@@ -31,21 +31,21 @@ char	*ft_parsing_empty_line(t_param *param, int fd)
 
 void	ft_merge_lines(t_param *param, char *line, int height)
 {
-	int	i;
-	char	**tmp_worldMap;
+	int		i;
+	char	**tmp_worldmap;
 
 	i = 0;
-	tmp_worldMap = param->worldMap;
-	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
-	if (param->worldMap == NULL)
-		ft_exit11(param, tmp_worldMap, line);
+	tmp_worldmap = param->worldmap;
+	param->worldmap = malloc(sizeof(char *) * param->mapheight);
+	if (param->worldmap == NULL)
+		ft_exit11(param, tmp_worldmap, line);
 	while (i < height - 1)
 	{
-		param->worldMap[i] = tmp_worldMap[i];
+		param->worldmap[i] = tmp_worldmap[i];
 		i++;
 	}
-	param->worldMap[i] = line;
-	free(tmp_worldMap);
+	param->worldmap[i] = line;
+	free(tmp_worldmap);
 }
 
 void	ft_parsing_map(t_param *param, int fd, char *line)
@@ -53,19 +53,19 @@ void	ft_parsing_map(t_param *param, int fd, char *line)
 	int		ret;
 
 	ret = 1;
-	param->mapHeight = 1;
-	param->worldMap = malloc(sizeof(char *) * param->mapHeight);
-	if (param->worldMap == NULL)
+	param->mapheight = 1;
+	param->worldmap = malloc(sizeof(char *) * param->mapheight);
+	if (param->worldmap == NULL)
 		ft_exit6(param, line);
-	param->worldMap[0] = line;
+	param->worldmap[0] = line;
 	while (ret == 1)
-	{	
+	{
 		ret = get_next_line(fd, &line);
 		if (ret >= 0)
 		{
 			ft_check_line(param, line);
-			param->mapHeight++;
-			ft_merge_lines(param, line, param->mapHeight);
+			param->mapheight++;
+			ft_merge_lines(param, line, param->mapheight);
 		}
 	}
 	if (ret == -1)
@@ -74,10 +74,17 @@ void	ft_parsing_map(t_param *param, int fd, char *line)
 
 void	ft_parsing_get_info(t_param *param, int fd)
 {
-	int	tab[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-	int	ret;
-	char *line;
+	int		tab[8];
+	int		ret;
+	char	*line;
+	int		i;
 
+	i = 0;
+	while (i < 8)
+	{
+		tab[i] = 0;
+		i++;
+	}
 	while (ft_check_tab(tab) == 0)
 	{
 		ret = get_next_line(fd, &line);

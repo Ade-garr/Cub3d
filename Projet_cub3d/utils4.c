@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 18:45:55 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/12 18:45:57 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 12:46:23 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_exit10(t_param *param)
 {
-	write(1, "Error : impossible to read cub file or to set up the game, program stopped\n", 75);
+	write(1, "Error : impossible to read cub file or to set up the game", 57);
+	write(1, ", program stopped\n", 18);
 	ft_free_param(param);
 	exit(1);
 }
@@ -30,7 +31,8 @@ void	ft_exit9(t_param *param, char **spltline, char *line)
 
 void	ft_exit8(t_param *param, char **spltline, char *line)
 {
-	write(1, "Error : impossible to read cub file or to set up the game, program stopped\n", 75);
+	write(1, "Error : impossible to read cub file or to set up the game", 57);
+	write(1, ", program stopped\n", 18);
 	free(line);
 	ft_free_param(param);
 	spltline = ft_free(&spltline);
@@ -65,7 +67,8 @@ void	ft_exit7(t_param *param, char **spltline, char *line, int nb)
 
 void	ft_exit6(t_param *param, char *line)
 {
-	write(1, "Error : impossible to read cub file or to set up the game, program stopped\n", 75);
+	write(1, "Error : impossible to read cub file or to set up the game", 57);
+	write(1, ", program stopped\n", 18);
 	free(line);
 	ft_free_param(param);
 	exit(1);

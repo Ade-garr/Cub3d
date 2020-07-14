@@ -6,18 +6,19 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:02:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:05 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 19:37:06 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_analyse_resolution_info(t_param *param, char **spltline, int index, char *line)
+void	ft_analyse_resolution_info(t_param *param, char **spltline,
+		int index, char *line)
 {
 	int	spltline_long;
 	int	ret;
-	int	screenX_max;
-	int	screenY_max;
+	int	screenx_max;
+	int	screeny_max;
 
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 3)
@@ -25,39 +26,40 @@ void	ft_analyse_resolution_info(t_param *param, char **spltline, int index, char
 	ret = ft_check_nb(spltline[1], spltline[2]);
 	if (ret == -1)
 		ft_exit7(param, spltline, line, index);
-	param->winX = ft_atoi(spltline[1]);
-	param->winY = ft_atoi(spltline[2]);
-	//mlx_get_screen_size(param->mlx, &screenX_max, &screenY_max); // A MODIFIER AVEC MLX LINUX
-	if (param->winX <= 0 || param->winY <= 0)
+	param->winx = ft_atoi(spltline[1]);
+	param->winy = ft_atoi(spltline[2]);
+	//mlx_get_screen_size(param->mlx, &screenx_max, &screeny_max); // A MODIFIER AVEC MLX LINUX
+	if (param->winx <= 0 || param->winy <= 0)
 		ft_exit7(param, spltline, line, 8);
-	screenX_max = 1920;// A ENLEVER
-	screenY_max = 1080;// A ENLEVER	
-	if (param->winX > screenX_max)
-		param->winX = screenX_max;
-	if (param->winY > screenY_max)
-		param->winY = screenY_max;
+	screenx_max = 1920;// A ENLEVER
+	screeny_max = 1080;// A ENLEVER
+	if (param->winx > screenx_max)
+		param->winx = screenx_max;
+	if (param->winy > screeny_max)
+		param->winy = screeny_max;
 }
 
-void	ft_param_texture_path(t_param *param, char **spltline, int index, char *line)
+void	ft_param_texture_path(t_param *param, char **spltline,
+		int index, char *line)
 {
 	if (index == 1)
 	{
-		if ((param->fn_tex_N = ft_strdup(spltline[1])) == NULL)
+		if ((param->fn_tex_n = ft_strdup(spltline[1])) == NULL)
 			ft_exit8(param, spltline, line);
 	}
 	if (index == 2)
 	{
-		if ((param->fn_tex_S = ft_strdup(spltline[1])) == NULL)
+		if ((param->fn_tex_s = ft_strdup(spltline[1])) == NULL)
 			ft_exit8(param, spltline, line);
 	}
 	if (index == 3)
 	{
-		if ((param->fn_tex_W = ft_strdup(spltline[1])) == NULL)
+		if ((param->fn_tex_w = ft_strdup(spltline[1])) == NULL)
 			ft_exit8(param, spltline, line);
 	}
 	if (index == 4)
 	{
-		if ((param->fn_tex_E = ft_strdup(spltline[1])) == NULL)
+		if ((param->fn_tex_e = ft_strdup(spltline[1])) == NULL)
 			ft_exit8(param, spltline, line);
 	}
 	if (index == 5)
@@ -67,12 +69,13 @@ void	ft_param_texture_path(t_param *param, char **spltline, int index, char *lin
 	}
 }
 
-void	ft_analyse_texture_info(t_param *param, char **spltline, int index, char *line)
+void	ft_analyse_texture_info(t_param *param, char **spltline,
+		int index, char *line)
 {
-	int	spltline_long;
+	int		spltline_long;
 	void	*ret;
-	int	i1;
-	int	i2;
+	int		i1;
+	int		i2;
 
 	spltline_long = ft_find_long_spltline(spltline);
 	if (spltline_long != 2)
@@ -86,11 +89,11 @@ void	ft_analyse_texture_info(t_param *param, char **spltline, int index, char *l
 
 void	ft_check_valid_b(char **spltline, int index, t_param *param, char *line)
 {
-	int	B;
+	int	b;
 	int	i;
 
 	i = 0;
-	B = -1;
+	b = -1;
 	while (spltline[1][i] != ',')
 		i++;
 	i++;
@@ -99,48 +102,43 @@ void	ft_check_valid_b(char **spltline, int index, t_param *param, char *line)
 	i++;
 	while (spltline[1][i] >= 48 && spltline[1][i] <= 57)
 	{
-		if (B == -1)
-			B = spltline[1][i] - 48;
-		else
-			B = B * 10 + spltline[1][i] - 48;
+		b = (b == -1) ? spltline[1][i] - 48 : b * 10 + spltline[1][i] - 48;
 		i++;
 	}
 	while (spltline[1][i] == ' ')
 		i++;
-	if (spltline[1][i] != '\0')
-		ft_exit7(param, spltline, line, index);
-	if ((B < 0 || B > 255))
+	if (spltline[1][i] != '\0' || (b < 0 || b > 255))
 		ft_exit7(param, spltline, line, index);
 	if (index == 6)
-		param->floorB = B;
+		param->floorb = b;
 	if (index == 7)
-		param->cellB = B;
+		param->cellb = b;
 }
 
 void	ft_check_valid_g(char **spltline, int index, t_param *param, char *line)
 {
-	int	G;
+	int	g;
 	int i;
 
 	i = 0;
-	G = -1;
+	g = -1;
 	while (spltline[1][i] != ',')
 		i++;
 	i++;
 	while (spltline[1][i] >= 48 && spltline[1][i] <= 57)
 	{
-		if (G == -1)
-			G = spltline[1][i] - 48;
+		if (g == -1)
+			g = spltline[1][i] - 48;
 		else
-			G = G * 10 + spltline[1][i] - 48;
+			g = g * 10 + spltline[1][i] - 48;
 		i++;
 	}
 	if (spltline[1][i] != ',')
 		ft_exit7(param, spltline, line, index);
-	if ((G < 0 || G > 255))
+	if ((g < 0 || g > 255))
 		ft_exit7(param, spltline, line, index);
 	if (index == 6)
-		param->floorG = G;
+		param->floorg = g;
 	if (index == 7)
-		param->cellG = G;
+		param->cellg = g;
 }

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:03:39 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:48 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 19:42:28 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,31 @@
 
 void	ft_check_valid_r(char **spltline, int index, t_param *param, char *line)
 {
-	int	R;
+	int	r;
 	int	i;
 
 	i = 0;
-	R = -1;
+	r = -1;
 	while (spltline[1][i] >= 48 && spltline[1][i] <= 57)
 	{
-		if (R == -1)
-			R = spltline[1][i] - 48;
+		if (r == -1)
+			r = spltline[1][i] - 48;
 		else
-			R = R * 10 + spltline[1][i] - 48;
+			r = r * 10 + spltline[1][i] - 48;
 		i++;
 	}
 	if (spltline[1][i] != ',')
 		ft_exit7(param, spltline, line, index);
-	if ((R < 0 || R > 255))
+	if ((r < 0 || r > 255))
 		ft_exit7(param, spltline, line, index);
 	if (index == 6)
-		param->floorR = R;
+		param->floorr = r;
 	if (index == 7)
-		param->cellR = R;
+		param->cellr = r;
 }
 
-void	ft_analyse_color_info(t_param *param, char **spltline, int index, char *line)
+void	ft_analyse_color_info(t_param *param, char **spltline,
+		int index, char *line)
 {
 	int	spltline_long;
 
@@ -49,7 +50,8 @@ void	ft_analyse_color_info(t_param *param, char **spltline, int index, char *lin
 	ft_check_valid_b(spltline, index, param, line);
 }
 
-void	ft_analyse_line_info(t_param *param, char **spltline, int index, char *line)
+void	ft_analyse_line_info(t_param *param, char **spltline,
+		int index, char *line)
 {
 	if (index == 0)
 		ft_analyse_resolution_info(param, spltline, index, line);
@@ -58,15 +60,17 @@ void	ft_analyse_line_info(t_param *param, char **spltline, int index, char *line
 	if (index > 5)
 	{
 		ft_analyse_color_info(param, spltline, index, line);
-		param->floorcolor = param->floorB + param->floorG * 256 + param->floorR * 65536;
-		param->cellcolor = param->cellB + param->cellG * 256 + param->cellR * 65536;
+		param->floorcolor = param->floorb + param->floorg * 256 +
+		param->floorr * 65536;
+		param->cellcolor = param->cellb + param->cellg * 256 +
+		param->cellr * 65536;
 	}
 }
 
-void	ft_analyse_line(t_param *param, char *line, int	tab[8])
+void	ft_analyse_line(t_param *param, char *line, int tab[8])
 {
-	char **spltline;
-	int	index;
+	char	**spltline;
+	int		index;
 
 	spltline = ft_split(line, ' ');
 	if (spltline == NULL)
@@ -89,8 +93,9 @@ void	ft_check_line(t_param *param, char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != '2' && line[i] != 'N' 
-		&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
+		if (line[i] != '0' && line[i] != '1' && line[i] != '2'
+		&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E'
+		&& line[i] != 'W' && line[i] != ' ')
 			ft_exit4(param, line);
 		i++;
 	}

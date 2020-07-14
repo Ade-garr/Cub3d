@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:21:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/06/24 20:06:10 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 17:40:58 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_exithook(t_param *param)
 {
-    (void)param;
+	(void)param;
 	ft_free_param(param);
 	write(1, "Program successfully exited\n", 28);
 	exit(1);
@@ -61,7 +61,7 @@ int	ft_keypress(int key, t_param *param)
 	return (1);
 }
 
-int ft_keyrelease(int key, t_param *param)
+int	ft_keyrelease(int key, t_param *param)
 {
 	//LINUX
 	if (key == 122)
@@ -78,7 +78,7 @@ int ft_keyrelease(int key, t_param *param)
 		param->tab[5] = 0;
 	if (key == 65505)
 		param->tab[6] = 0;
-	
+
 	//MACOS
 	/*if (key == 13)
 		param->tab[0] = 0;
