@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 13:09:22 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 18:33:06 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 16:57:04 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	ft_bodycollision3(t_param *param, double speed)
 
 	recty = floor(param->posy) + 1;
 	rectx = floor(param->posx);
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	rectx = floor(param->posx) + 1;
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
@@ -56,20 +56,20 @@ int	ft_bodycollision2(t_param *param, double speed)
 
 	rectx = floor(param->posx) - 1;
 	recty = floor(param->posy);
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	rectx = floor(param->posx) + 1;
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	rectx = floor(param->posx) - 1;
 	recty = floor(param->posy) + 1;
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
@@ -84,19 +84,19 @@ int	ft_bodycollision(t_param *param, double speed)
 
 	rectx = floor(param->posx) - 1;
 	recty = floor(param->posy) - 1;
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	rectx = floor(param->posx);
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);
 	}
 	rectx = floor(param->posx) + 1;
-	if ((int)recty == 0 || (int)recty == param->mapheight - 1 || (int)rectx == 0 || (int)rectx == param->mapwidth - 1)
+	if (param->worldmap[(int)recty][(int)rectx] == '1')
 	{
 		if (ft_checkcollision(param, speed, rectx, recty) == 1)
 			return (1);

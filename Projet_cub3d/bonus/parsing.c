@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/12 13:57:32 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 18:48:50 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 19:10:18 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_parsing(t_param *param, char *str)
 {
 	int		fd;
 	char	*line;
-	
+
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		ft_exit3(param);
@@ -107,7 +107,6 @@ void	ft_parsing(t_param *param, char *str)
 	line = ft_parsing_empty_line(param, fd);
 	ft_parsing_map(param, fd, line);
 	ft_check_nswe(param);
-	ft_transform_map(param);
-	ft_check_map_nobonus(param);
+	ft_check_map(param);
 	close(fd);
 }

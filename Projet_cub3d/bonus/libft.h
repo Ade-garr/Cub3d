@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 17:59:16 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/14 14:52:38 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ typedef struct		s_param
 	int				cellr;
 	int				cellg;
 	int				cellb;
-	int				mapwidth;
+	//int			mapwidth; // A VOIR SI UTILISÉ
 	int				mapheight;
 	char			**worldmap;
 }					t_param;
@@ -291,11 +291,6 @@ char				*ft_parsing_empty_line(t_param *param, int fd);
 void				ft_merge_lines(t_param *param, char *line, int height);
 void				ft_parsing_map(t_param *param, int fd, char *line);
 void				ft_parsing_get_info(t_param *param, int fd);
-void				ft_transform_map(t_param *param);
-
-void				ft_get_mapwidth(t_param *param);
-void				ft_fill_tmp_worldmap(t_param *param, char **tmp_worldmap);
-void				ft_check_map_nobonus(t_param *param);
 
 void				ft_raycasting5(t_param *param, t_raycast *raycast);
 void				ft_raycasting4(t_param *param, t_raycast *raycast);

@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:04:47 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 17:15:17 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/13 19:49:07 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,4 @@ void	ft_parsing_get_info(t_param *param, int fd)
 			ft_analyse_line(param, line, tab);
 		free(line);
 	}
-}
-
-void	ft_transform_map(t_param *param)
-{
-	char	**tmp_worldmap;
-
-	ft_get_mapwidth(param);
-	tmp_worldmap = malloc(sizeof(char *) * param->mapheight);
-	if (tmp_worldmap == NULL)
-		ft_exit10(param);
-	ft_fill_tmp_worldmap(param, tmp_worldmap);
-	ft_free_map(param->worldmap, param);
-	param->worldmap = tmp_worldmap;
 }
