@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:25:09 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 18:47:10 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/16 19:23:27 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ void	ft_loop4(t_param *param, double speed)
 		param->diry = param->diry * cos(-M_PI / 2) -
 		param->dirx * sin(-M_PI / 2);
 		param->dirx = olddiry * sin(-M_PI / 2) + param->dirx * cos(-M_PI / 2);
-		if ((int)(param->posy + param->diry * speed) != 0 && (int)(param->posy + param->diry * speed) != param->mapheight - 1 && (int)(param->posx + param->dirx * speed) != 0 && (int)(param->posx + param->dirx * speed) != param->mapwidth - 1 && ft_bodycollision(param, speed) == 0)
+		if ((int)(param->posy + param->diry * speed) != 0 &&
+		(int)(param->posy + param->diry * speed) != param->mapheight - 1 &&
+		(int)(param->posx + param->dirx * speed) != 0 &&
+		(int)(param->posx + param->dirx * speed) != param->mapwidth - 1 &&
+		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
 			param->posy += param->diry * speed;
@@ -74,7 +78,11 @@ void	ft_loop3(t_param *param, double speed)
 		olddiry = param->diry;
 		param->diry = param->diry * cos(M_PI / 2) - param->dirx * sin(M_PI / 2);
 		param->dirx = olddiry * sin(M_PI / 2) + param->dirx * cos(M_PI / 2);
-		if ((int)(param->posy + param->diry * speed) != 0 && (int)(param->posy + param->diry * speed) != param->mapheight - 1 && (int)(param->posx + param->dirx * speed) != 0 && (int)(param->posx + param->dirx * speed) != param->mapwidth - 1 && ft_bodycollision(param, speed) == 0)
+		if ((int)(param->posy + param->diry * speed) != 0 &&
+		(int)(param->posy + param->diry * speed) != param->mapheight - 1 &&
+		(int)(param->posx + param->dirx * speed) != 0 &&
+		(int)(param->posx + param->dirx * speed) != param->mapwidth - 1 &&
+		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
 			param->posy += param->diry * speed;
@@ -95,7 +103,11 @@ void	ft_loop2(t_param *param, double speed)
 		olddiry = param->diry;
 		param->dirx = -param->dirx;
 		param->diry = -param->diry;
-		if ((int)(param->posy + param->diry * speed) != 0 && (int)(param->posy + param->diry * speed) != param->mapheight - 1 && (int)(param->posx + param->dirx * speed) != 0 && (int)(param->posx + param->dirx * speed) != param->mapwidth - 1 && ft_bodycollision(param, speed) == 0)
+		if ((int)(param->posy + param->diry * speed) != 0 &&
+		(int)(param->posy + param->diry * speed) != param->mapheight - 1 &&
+		(int)(param->posx + param->dirx * speed) != 0 &&
+		(int)(param->posx + param->dirx * speed) != param->mapwidth - 1 &&
+		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
 			param->posy += param->diry * speed;
@@ -116,7 +128,10 @@ int		ft_loop(t_param *param)
 		speed = 0.05;
 	if (param->tab[0] == 1)
 	{
-		if ((int)(param->posy + param->diry * speed) != 0 && (int)(param->posy + param->diry * speed) != param->mapheight - 1 && (int)(param->posx + param->dirx * speed) != 0 && (int)(param->posx + param->dirx * speed) != param->mapwidth - 1 && ft_bodycollision(param, speed) == 0)
+		if ((int)(param->posy + param->diry * speed) != 0 && (int)(param->posy +
+		param->diry * speed) != param->mapheight - 1 && (int)(param->posx +
+		param->dirx * speed) != 0 && (int)(param->posx + param->dirx * speed) !=
+		param->mapwidth - 1 && ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
 			param->posy += param->diry * speed;

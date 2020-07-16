@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/16 17:59:16 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/16 19:39:37 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,6 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 
-//GNL
 int					ft_position(char *left);
 int					ft_free_line(char **line);
 int					ft_checkleft(char *left);
@@ -230,9 +229,9 @@ int					ft_fill_line(int fd, char **line,
 int					ft_give_line(char **line, char *left);
 int					get_next_line(int fd, char **line);
 
-//CUB3D
 int					ft_checkcollision(t_param *param,
 					double speed, double rectx, double recty);
+int					ft_bodycollision4(t_param *param, double speed);
 int					ft_bodycollision3(t_param *param, double speed);
 int					ft_bodycollision2(t_param *param, double speed);
 int					ft_bodycollision(t_param *param, double speed);
