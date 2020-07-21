@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 19:43:41 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 12:29:20 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:29:45 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,28 @@ int		ft_checking2(char **check_map, int x, int y, int max)
 	if (ret1 == 1 && ret2 == 1 && ret3 == 1 && ret4 == 1)
 		return (1);
 	return (-1);
+}
+
+void	ft_color_red(t_param *param, int x, int y)
+{
+	char	*adr;
+
+	adr = param->imgadr + (y * param->imglenght + x * (param->imgbpp / 8));
+	*(unsigned int *)adr = 0x000000;
+}
+
+void	ft_init2(t_param *param)
+{
+	param->tex_sprite = NULL;
+	param->tab_sprite = NULL;
+	param->tab_dist_wall = NULL;
+	param->sprite_order = NULL;
+	param->sprite_distance = NULL;
+	param->worldmap = NULL;
+	param->mlx = NULL;
+	param->win = NULL;
+	param->img = NULL;
+	param->crouch = 0;
+	param->updown = 0;
+	param->stamina = 200;
 }

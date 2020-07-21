@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 13:43:48 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 19:58:13 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:19:48 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	ft_raycasting5(t_param *param, t_raycast *raycast)
 	if (raycast->drawstart < 0)
 		raycast->drawstart = 0;
 	raycast->drawend = raycast->lineheight / 2 + param->winy / 2;
-	if (raycast->drawend >= param->winy)
-		raycast->drawend = param->winy - 1;
+	if (raycast->drawend > param->winy)
+		raycast->drawend = param->winy;
 	if (raycast->side == 0)
 		raycast->wallx = param->posy + raycast->walldist * raycast->raydiry;
 	else

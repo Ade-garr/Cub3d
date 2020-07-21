@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 13:54:24 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 14:52:38 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:30:03 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef	struct		s_spritecast
 	int				texy;
 	char			*adr;
 	int				d;
+	int				spritecrouch;
 }					t_spritecast;
 
 typedef	struct		s_raycast
@@ -116,6 +117,7 @@ typedef	struct		s_raycast
 	double			texpos;
 	int				texy;
 	int				xfloorcell;
+	int				wallcrouch;
 }					t_raycast;
 
 typedef struct		s_param
@@ -135,7 +137,7 @@ typedef struct		s_param
 	int				imgbpp;
 	int				imglenght;
 	int				endian;
-	int				tab[7];
+	int				tab[10];
 	char			*fn_tex_n;
 	char			*fn_tex_s;
 	char			*fn_tex_w;
@@ -160,9 +162,12 @@ typedef struct		s_param
 	int				cellr;
 	int				cellg;
 	int				cellb;
-	//int			mapwidth; // A VOIR SI UTILISÉ
+	int				mapwidth;
 	int				mapheight;
 	char			**worldmap;
+	int				crouch;
+	int				stamina;
+	int				updown;
 }					t_param;
 
 typedef struct		s_list
@@ -218,7 +223,6 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 
-//GNL
 int					ft_position(char *left);
 int					ft_free_line(char **line);
 int					ft_checkleft(char *left);
@@ -230,9 +234,9 @@ int					ft_fill_line(int fd, char **line,
 int					ft_give_line(char **line, char *left);
 int					get_next_line(int fd, char **line);
 
-//CUB3D
 int					ft_checkcollision(t_param *param,
 					double speed, double rectx, double recty);
+int					ft_bodycollision4(t_param *param, double speed);
 int					ft_bodycollision3(t_param *param, double speed);
 int					ft_bodycollision2(t_param *param, double speed);
 int					ft_bodycollision(t_param *param, double speed);
@@ -249,6 +253,14 @@ int					ft_loop(t_param *param);
 int					ft_exithook(t_param *param);
 int					ft_keypress(int key, t_param *param);
 int					ft_keyrelease(int key, t_param *param);
+void				ft_loop7(t_param *param, double speed, double rotspd);
+void				ft_loop6(t_param *param, double speed, double rotspd);
+
+void				ft_hud(t_param *param);
+void				ft_hud2(t_param *param);
+void				ft_hud3(t_param *param);
+void				ft_hud4(t_param *param);
+void				ft_hud5(t_param *param, int y);
 
 void				ft_define_ptr(t_param *param, t_img *ptr);
 void				ft_tab_in_img(t_param *param, int fd);
@@ -381,5 +393,7 @@ void				ft_exit1(void);
 int					ft_check_filename(char *str);
 void				ft_param_orient2(t_param *param, char c);
 int					ft_checking2(char **check_map, int x, int y, int max);
+void				ft_color_red(t_param *param, int x, int y);
+void				ft_init2(t_param *param);
 
 #endif

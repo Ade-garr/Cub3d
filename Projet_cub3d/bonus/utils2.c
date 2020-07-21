@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 20:58:18 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 14:37:12 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:29:34 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_init(t_param *param)
 	int i;
 
 	i = -1;
-	while (++i <= 6)
+	while (++i <= 9)
 		param->tab[i] = 0;
 	param->fn_tex_n = NULL;
 	param->fn_tex_s = NULL;
@@ -94,13 +94,5 @@ void	ft_init(t_param *param)
 	param->tex_s = NULL;
 	param->tex_e = NULL;
 	param->tex_w = NULL;
-	param->tex_sprite = NULL;
-	param->tab_sprite = NULL;
-	param->tab_dist_wall = NULL;
-	param->sprite_order = NULL;
-	param->sprite_distance = NULL;
-	param->worldmap = NULL;
-	param->mlx = NULL;
-	param->win = NULL;
-	param->img = NULL;
+	ft_init2(param);
 }

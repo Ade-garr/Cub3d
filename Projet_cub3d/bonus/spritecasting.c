@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 14:15:56 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 20:49:37 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:27:32 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	ft_spritecasting5(t_param *param, t_spritecast *spritecast)
 	spritecast->y = spritecast->draw_starty;
 	while (spritecast->y < spritecast->draw_endy)
 	{
-		spritecast->d = spritecast->y - param->winy / 2 +
-		spritecast->sprite_height / 2;
+		spritecast->d = spritecast->y - spritecast->spritecrouch -
+		param->updown - param->winy / 2 + spritecast->sprite_height / 2;
 		spritecast->texy = ((spritecast->d *
 		param->tex_sprite->height) / spritecast->sprite_height);
 		if (param->tex_sprite->tab[spritecast->texy *
@@ -53,7 +53,8 @@ void	ft_spritecasting3(t_param *param, t_spritecast *spritecast)
 {
 	if (spritecast->draw_starty < 0)
 		spritecast->draw_starty = 0;
-	spritecast->draw_endy = spritecast->sprite_height / 2 + param->winy / 2;
+	spritecast->draw_endy = spritecast->sprite_height / 2 + param->winy / 2
+	+ spritecast->spritecrouch + param->updown;
 	if (spritecast->draw_endy >= param->winy)
 		spritecast->draw_endy = param->winy;
 	spritecast->sprite_width = (fabs(param->winy / spritecast->transformy));
@@ -83,7 +84,9 @@ void	ft_spritecasting2(t_param *param, t_spritecast *spritecast)
 	spritecast->sprite_screenx = ((param->winx / 2) * (1 +
 	spritecast->transformx / spritecast->transformy));
 	spritecast->sprite_height = (fabs(param->winy / spritecast->transformy));
-	spritecast->draw_starty = -spritecast->sprite_height / 2 + param->winy / 2;
+	spritecast->spritecrouch = param->crouch / spritecast->transformy * 0.8;
+	spritecast->draw_starty = -spritecast->sprite_height / 2 +
+	param->winy / 2 + spritecast->spritecrouch + param->updown;
 	ft_spritecasting3(param, spritecast);
 }
 

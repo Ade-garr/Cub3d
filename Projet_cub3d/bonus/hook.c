@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:25:09 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 14:56:21 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 16:08:20 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ft_loop4(t_param *param, double speed)
 		param->dirx = olddiry * sin(-M_PI / 2) + param->dirx * cos(-M_PI / 2);
 		if (param->worldmap[(int)(param->posy + param->diry * speed)]
 		[(int)(param->posx + param->dirx * speed)] != '1' &&
+		param->worldmap[(int)(param->posy + param->diry * speed)]
+		[(int)(param->posx + param->dirx * speed)] != '2' &&
 		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
@@ -78,6 +80,8 @@ void	ft_loop3(t_param *param, double speed)
 		param->dirx = olddiry * sin(M_PI / 2) + param->dirx * cos(M_PI / 2);
 		if (param->worldmap[(int)(param->posy + param->diry * speed)]
 		[(int)(param->posx + param->dirx * speed)] != '1' &&
+		param->worldmap[(int)(param->posy + param->diry * speed)]
+		[(int)(param->posx + param->dirx * speed)] != '2' &&
 		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
@@ -101,6 +105,8 @@ void	ft_loop2(t_param *param, double speed)
 		param->diry = -param->diry;
 		if (param->worldmap[(int)(param->posy + param->diry * speed)]
 		[(int)(param->posx + param->dirx * speed)] != '1' &&
+		param->worldmap[(int)(param->posy + param->diry * speed)]
+		[(int)(param->posx + param->dirx * speed)] != '2' &&
 		ft_bodycollision(param, speed) == 0)
 		{
 			param->posx += param->dirx * speed;
@@ -119,22 +125,23 @@ int		ft_loop(t_param *param)
 	speed = 0.025;
 	rotspeed = 0.025;
 	if (param->tab[6] == 1)
-		speed = 0.05;
-	if (param->tab[0] == 1)
 	{
-		if (param->worldmap[(int)(param->posy + param->diry * speed)]
-		[(int)(param->posx + param->dirx * speed)] != '1' &&
-		ft_bodycollision(param, speed) == 0)
+		if (param->stamina > 0)
+			speed = 0.05;
+		if (param->tab[0] == 1 || param->tab[1] == 1 || param->tab[2] == 1 ||
+		param->tab[3] == 1)
 		{
-			param->posx += param->dirx * speed;
-			param->posy += param->diry * speed;
+			param->stamina -= 2;
+			if (param->stamina < 0)
+				param->stamina = 0;
+		}
+		else
+		{
+			param->stamina += 1;
+			if (param->stamina > 200)
+				param->stamina = 200;
 		}
 	}
-	ft_loop2(param, speed);
-	ft_loop3(param, speed);
-	ft_loop4(param, speed);
-	ft_loop5(param, rotspeed);
-	ft_raycasting(param);
-	mlx_put_image_to_window(param->mlx, param->win, param->img, 0, 0);
+	ft_loop6(param, speed, rotspeed);
 	return (1);
 }

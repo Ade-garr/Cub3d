@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 13:45:42 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 20:17:22 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:26:32 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	ft_raycasting_south(t_param *param, t_raycast *raycast)
 	if (raycast->side == 1 && raycast->raydiry < 0)
 		raycast->texx = param->tex_s->width - raycast->texx - 1;
 	raycast->step = 1.0 * param->tex_s->height / raycast->lineheight;
-	raycast->texpos = (raycast->drawstart - param->winy / 2 +
-	raycast->lineheight / 2) * raycast->step;
+	raycast->texpos = (raycast->drawstart - raycast->wallcrouch -
+	param->updown - param->winy / 2 + raycast->lineheight / 2) * raycast->step;
 	raycast->xfloorcell = 0;
 	while (raycast->xfloorcell < raycast->drawstart)
 	{
@@ -93,8 +93,8 @@ void	ft_raycasting_north(t_param *param, t_raycast *raycast)
 	if (raycast->side == 1 && raycast->raydiry < 0)
 		raycast->texx = param->tex_n->width - raycast->texx - 1;
 	raycast->step = 1.0 * param->tex_n->height / raycast->lineheight;
-	raycast->texpos = (raycast->drawstart - param->winy / 2 +
-	raycast->lineheight / 2) * raycast->step;
+	raycast->texpos = (raycast->drawstart - raycast->wallcrouch -
+	param->updown - param->winy / 2 + raycast->lineheight / 2) * raycast->step;
 	raycast->xfloorcell = 0;
 	while (raycast->xfloorcell < raycast->drawstart)
 	{

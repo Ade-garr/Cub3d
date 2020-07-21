@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 13:43:48 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 19:58:13 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:22:08 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,16 @@ void	ft_raycasting5(t_param *param, t_raycast *raycast)
 	raycast->lineheight = (raycast->lineheight < 0) ?
 	INT_MAX : raycast->lineheight;
 	raycast->drawstart = -raycast->lineheight / 2 + param->winy / 2;
+	raycast->wallcrouch = param->crouch / raycast->walldist;
+	raycast->drawstart += raycast->wallcrouch;
+	raycast->drawstart += param->updown;
 	if (raycast->drawstart < 0)
 		raycast->drawstart = 0;
 	raycast->drawend = raycast->lineheight / 2 + param->winy / 2;
-	if (raycast->drawend >= param->winy)
-		raycast->drawend = param->winy - 1;
+	raycast->drawend += raycast->wallcrouch;
+	raycast->drawend += param->updown;
+	if (raycast->drawend > param->winy)
+		raycast->drawend = param->winy;
 	if (raycast->side == 0)
 		raycast->wallx = param->posy + raycast->walldist * raycast->raydiry;
 	else
@@ -120,4 +125,6 @@ void	ft_raycasting(t_param *param)
 			ft_raycasting_east(param, raycast);
 	}
 	ft_spritecasting(param);
+	if (param->winx >= 400 && param->winy >= 400)
+		ft_hud(param);
 }

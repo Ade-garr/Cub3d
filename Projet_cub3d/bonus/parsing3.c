@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 11:02:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/13 19:37:06 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/21 17:24:59 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ void	ft_analyse_resolution_info(t_param *param, char **spltline,
 		ft_exit7(param, spltline, line, index);
 	param->winx = ft_atoi(spltline[1]);
 	param->winy = ft_atoi(spltline[2]);
-	//mlx_get_screen_size(param->mlx, &screenx_max, &screeny_max); // A MODIFIER AVEC MLX LINUX
+	mlx_get_screen_size(param->mlx, &screenx_max, &screeny_max);
 	if (param->winx <= 0 || param->winy <= 0)
 		ft_exit7(param, spltline, line, 8);
-	screenx_max = 1920;// A ENLEVER
-	screeny_max = 1080;// A ENLEVER
 	if (param->winx > screenx_max)
 		param->winx = screenx_max;
 	if (param->winy > screeny_max)
