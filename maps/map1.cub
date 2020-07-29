@@ -1,0 +1,19 @@
+R 800 600
+NO ./textures/mossy.xpm
+SO ./textures/colorstone.xpm
+EA ./textures/eagle.xpm
+WE ./textures/greystone.xpm
+S ./textures/chaton.xpm
+
+F 0,255,153
+
+C 0,255,255
+
+
+111111111111111
+100020000000001
+1000001111000001
+1002001001000001
+1000001111000001
+10N000000001111
+1111111111111
