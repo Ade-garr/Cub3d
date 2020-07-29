@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/14 12:48:10 by ade-garr         ###   ########.fr       */
+/*   Updated: 2020/07/29 15:38:48 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_launch_cub3d(t_param *param, int argc)
 	if (argc == 2)
 	{
 		param->win = mlx_new_window(param->mlx,
-		param->winx, param->winy, "Cub3d");
+		param->winx, param->winy, "Cub3D");
 		if (param->win == NULL)
 			ft_exit2(param);
 		mlx_hook(param->win, 2, 1L << 0, ft_keypress, param);
