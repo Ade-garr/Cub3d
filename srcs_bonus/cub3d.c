@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 18:44:08 by ade-garr          #+#    #+#             */
-/*   Updated: 2020/07/29 15:38:48 by ade-garr         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:57:24 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_launch_cub3d(t_param *param, int argc)
 int		main(int argc, char **argv)
 {
 	t_param	*param;
-
+	
 	if ((argc == 2 && ft_check_filename(argv[1]) == 1) || (argc == 3 &&
 	ft_check_arg(argv[2]) == 1 && ft_check_filename(argv[1]) == 1))
 	{
