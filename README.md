@@ -25,11 +25,13 @@ make bonus
 ./Cub3D maps/map1.cub
 ```
 
+Feel free to change the maze and other parameters in the .cub files !
+
 ## 🔑 Controls
-<kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> / <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> : Move and Strafe
-<kbd>Shift</kbd> : sprint (beware your endurance bar!)
-<kbd>Ctrl</kbd> : crouch
-<kbd>Esc</kbd> : quit
+<kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> / <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> : Move and Strafe<br>
+<kbd>Shift</kbd> : sprint (beware your endurance bar!)<br>
+<kbd>Ctrl</kbd> : crouch<br>
+<kbd>Esc</kbd> : quit<br>
 
 
 ⚠️ Subject given slightly differs from actual project.<br>
