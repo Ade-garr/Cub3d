@@ -25,7 +25,7 @@ make bonus
 ./Cub3D maps/map1.cub
 ```
 
-Feel free to change the maze and other parameters in the .cub files !
+Feel free to change the maze and other parameters in the .cub files (read subject) !
 
 ## 🔑 Controls
 <kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> / <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> : Move and Strafe<br>
