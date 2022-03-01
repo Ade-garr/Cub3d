@@ -1,12 +1,12 @@
-### Welcome to my Cub3D repository 👋
+# 📌 Cub3D 📌
 
-⭐️ This project is inspired by the world-famous eponymous 90’s game, which was the first FPS ever. Exploring ray-casting, the goal is be to make a dynamic view inside a maze, in which you can move freely.
+This project is inspired by the world-famous eponymous 90’s game, which was the first FPS ever. Exploring ray-casting, the goal is be to make a dynamic view inside a maze, in which you can move freely.
 
 <p align="center">
 	<img src="./cub3D.gif" >
 </p>
 
-## 💡 Usage
+## 🔑 How to
 
 Install the minilibx on your system :
 
@@ -27,7 +27,7 @@ make bonus
 
 Feel free to change the maze and other parameters in the .cub files (read subject) !
 
-## 🔑 Controls
+## 🎮 Controls
 <kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> / <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> : Move and Strafe<br>
 <kbd>Shift</kbd> : sprint (beware your endurance bar!)<br>
 <kbd>Ctrl</kbd> : crouch<br>
